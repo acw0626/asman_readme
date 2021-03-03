@@ -1,26 +1,26 @@
-![자율주행사진](https://user-images.githubusercontent.com/78134019/109453737-2470fe00-7a96-11eb-95b6-9e6c3ad1b08c.jpg)
+
 
 
 
 # 서비스 시나리오
 
 기능적 요구사항
-1. 고객이 필요한 자율운행 택시등급을 선택하고 호출 요청한다.
-2. 고객 위치에서 가용 택시를 조회 후 택시를 할당 요청한다.
-3. 할당요청된 택시중 하나를 자동할당 한다.
-4. 할당 즉시, 고객에게 호출완료 정보를 전달 한다.
-5. 고객은 택시호출을 취소 할 수 있다.
-6. 호출이 취소 되면 해당 할당을 취소한다.
-7. 고객은 호출상태를 중간중간 조회하고 카톡으로 받는다.
+1. 고객이 필요한 서비스 구분을 선택하고 수리기사 호출 요청한다.
+2. 고객의 집 위치에서 가용 가능한 수리기사를 할당 요청한다.
+3. 할당요청된 수리기사중 하나를 자동할당 한다.
+4. 할당 즉시, 고객에게 기사배정완료 정보를 전달 한다.
+5. 고객은 수리기사호출을 취소 할 수 있다.
+6. 호출이 취소 되면 해당 배정을 취소한다.
+7. 고객은 기사배정상태를 중간중간 조회하고 카톡으로 받는다.
 
 비기능적 요구사항
 1. 트랜잭션
-- 택시 할당확인 되지 않으면 고객 호출요청을 할 수 없다. Sync 호출
+- 수리기사가 할당확인 되지 않으면 고객 수리기사배정요청을 할 수 없다. Sync 호출
 2. 장애격리
-- 택시 할당요청은 할당확인 기능이 동작하지 않더라도, 365일 24시간 받을 수 있어야 한다 Async (event-driven), Eventual Consistency
-- 고객 호출요청이 과중되면 택시 할당확인 요청을 잠시동안 받지 않고 잠시후에 하도록 유도한다 Circuit breaker, fallback
+- 수리기사 할당요청은 할당확인 기능이 동작하지 않더라도, 365일 24시간 받을 수 있어야 한다 Async (event-driven), Eventual Consistency
+- 수리기사요청이 과중되면 수리기사 할당확인 요청을 잠시동안 받지 않고 잠시후에 하도록 유도한다 Circuit breaker, fallback
 3. 성능
-- 고객은 호출상태를 조회하고 할당/할당취소 여부를 카톡으로 확인 할 수 있어야 한다. CQRS, Event driven
+- 고객은 수리기사 상태를 조회하고 할당/할당취소 여부를 카톡으로 확인 할 수 있어야 한다. CQRS, Event driven
 
 
 
@@ -43,41 +43,39 @@
 # 분석/설계
 
 
-## AS-IS 조직 (Horizontally-Aligned)
-  ![image](https://user-images.githubusercontent.com/487999/79684144-2a893200-826a-11ea-9a01-79927d3a0107.png)
-
-## TO-BE 조직 (Vertically-Aligned)
-  ![조직구조](https://user-images.githubusercontent.com/78134019/109453964-977a7480-7a96-11eb-83cb-5445c363a9e8.jpg)
-
 
 ## Event Storming 결과
-* MSAEz 로 모델링한 이벤트스토밍 결과:  http://www.msaez.io/#/storming/AYDToXSmsXY4cguxhLA9jTpgvGc2/every/663e27e6ef252865a609e90c5e01f243
+* MSAEz 로 모델링한 이벤트스토밍 결과:  http://www.msaez.io/#/storming/U1jLaY3TG5S3MRZ68wt7Om4P24Y2/mine/6f6b5e2b22d32b44be8af339ca4fd7f7
 
 
 ### 이벤트 도출
-![이벤트도출](https://user-images.githubusercontent.com/78134019/109454199-0d7edb80-7a97-11eb-81f0-4c7d3f581636.jpg)
+![이벤트도출](https://user-images.githubusercontent.com/78134019/109758622-333ee880-7c2f-11eb-8c13-007d24df5ac6.jpg)
 
 ### 부적격 이벤트 탈락
-![부적격이벤트](https://user-images.githubusercontent.com/78134019/109454229-18d20700-7a97-11eb-82a9-e1046b78682a.jpg)
+![부적격이벤트도출](https://user-images.githubusercontent.com/78134019/109758662-40f46e00-7c2f-11eb-9ea2-01462d9b9ce2.jpg)
+
 
 - 과정중 도출된 잘못된 도메인 이벤트들을 걸러내는 작업을 수행함
-- 택시 등급 선택됨,  :  UI 의 이벤트이지, 업무적인 의미의 이벤트가 아니라서 제외
-- 가용 택시 조회됨 :  계획된 사업 범위 및 프로젝트에서 벗어서난다고 판단하여 제외
+- 수리기사 등급 선택됨,  :  UI 의 이벤트이지, 업무적인 의미의 이벤트가 아니라서 제외
+- 가용 수리기사 조회됨 :  계획된 사업 범위 및 프로젝트에서 벗어서난다고 판단하여 제외
+
+
 
 	
 
 ### 액터, 커맨드 부착하여 읽기 좋게
-![커멘드부착](https://user-images.githubusercontent.com/78134019/109456931-2f7b5c80-7a9d-11eb-94fd-9552795783b1.jpg)
+![액터커멘드부착](https://user-images.githubusercontent.com/78134019/109758698-549fd480-7c2f-11eb-9a52-49df7fe30657.jpg)
 
 ### 어그리게잇으로 묶기
-![어그리게잇](https://user-images.githubusercontent.com/78134019/109456954-399d5b00-7a9d-11eb-8815-f5d2c0dc06f5.jpg)
+![어그리게잇](https://user-images.githubusercontent.com/78134019/109758716-5e293c80-7c2f-11eb-838e-e38fb9daac76.jpg)
 
-    - 호출, 택시관리, 택시 할당 어그리게잇을 생성하고 그와 연결된 command 와 event 들에 의하여 트랜잭션이 유지되어야 하는 단위로 그들 끼리 묶어줌 
+   - 호출, 수리기사관리, 수리기사 할당 어그리게잇을 생성하고 그와 연결된 command 와 event 들에 의하여 트랜잭션이 유지되어야 하는 단위로 그들 끼리 묶어줌 
+
 
 
 ### 바운디드 컨텍스트로 묶기
 
-![바운디드](https://user-images.githubusercontent.com/78134019/109457090-8123e700-7a9d-11eb-82c1-8567db428b25.jpg)
+![바운디드묶기](https://user-images.githubusercontent.com/78134019/109758772-739e6680-7c2f-11eb-8db2-728c778c42ed.jpg)
 
     - 도메인 서열 분리 
         - Core Domain:  app(front), store : 없어서는 안될 핵심 서비스이며, 연견 Up-time SLA 수준을 99.999% 목표, 배포주기는 app 의 경우 1주일 1회 미만, store 의 경우 1개월 1회 미만
@@ -86,90 +84,104 @@
 
 ### 폴리시 부착 (괄호는 수행주체, 폴리시 부착을 둘째단계에서 해놔도 상관 없음. 전체 연계가 초기에 드러남)
 
-![폴리시부착](https://user-images.githubusercontent.com/78134019/109457118-8e40d600-7a9d-11eb-9562-f03a83b336d4.jpg)
+![폴리시부착](https://user-images.githubusercontent.com/78134019/109758792-7c8f3800-7c2f-11eb-9ce8-b10c24a30cee.jpg)
 
 ### 폴리시의 이동
 
-![폴리시이동](https://user-images.githubusercontent.com/78134019/109457134-96991100-7a9d-11eb-9ca7-6f22063795c2.jpg)
+![폴리시이동](https://user-images.githubusercontent.com/78134019/109758865-84e77300-7c2f-11eb-9750-468ea148516e.jpg)
 
 ### 컨텍스트 매핑 (점선은 Pub/Sub, 실선은 Req/Resp)
 
-![컨택스트매핑](https://user-images.githubusercontent.com/78134019/109457150-9f89e280-7a9d-11eb-9564-5e91755cfca5.jpg)
+![컨택스트매핑](https://user-images.githubusercontent.com/78134019/109758899-8f097180-7c2f-11eb-9d88-78da3efdbdc0.jpg)
 
 
 
 ### 완성된 모형
-
-![완성된모형2](https://user-images.githubusercontent.com/78134019/109457187-b16b8580-7a9d-11eb-835d-5c0c61c6dae9.jpg)
+![image](https://user-images.githubusercontent.com/78134019/109758929-9af53380-7c2f-11eb-8793-b0678a12e337.png)
 
 
 
 ### 기능적 요구사항 검증
 
-![기능적요구사항검증](https://user-images.githubusercontent.com/78134019/109457210-c1836500-7a9d-11eb-8b74-f8971cc6e1b0.jpg)
+![image](https://user-images.githubusercontent.com/78134019/109758964-a7798c00-7c2f-11eb-96f6-0d9d0a66169c.png)
 
-- 고객이 택시를 호출요청한다.(ok)
-- 택시 관리 시스템이 택시 할당을 요청한다.(ok)
-- 택시 자동 할당이 완료된다.(ok)
-- 호출상태 및 할당상태를 갱신한다.(ok)
-- 고객에게 카톡 알림을 한다.(ok)
-
-
-![기능적요구사항검증_취소](https://user-images.githubusercontent.com/78134019/109457259-d9f37f80-7a9d-11eb-9ef5-d18faeb8cdaf.jpg)
-
-- 고객이 택시를 호출취소요청한다.(ok)
-- 택시 관리 시스템이 택시 할당 취소를 요청한다.(ok)
-- 택시 할당이 취소된다.(ok)
-- 취소상태로 갱신한다.(ok)
-- 고객에게 카톡 알림을 한다.(ok)
+고객이 수리기사를 호출요청한다.(ok)
+수리기사 관리 시스템이 수리기사 할당을 요청한다.(ok)
+수리기사 자동 할당이 완료된다.(ok)
+호출상태 및 할당상태를 갱신한다.(ok)
+고객에게 카톡 알림을 한다.(ok)
 
 
-![기능적요구사항_VIEW](https://user-images.githubusercontent.com/78134019/109457311-f5f72100-7a9d-11eb-8190-8e571eb95d7b.jpg)
 
+![image](https://user-images.githubusercontent.com/78134019/109759004-b9f3c580-7c2f-11eb-8504-01cdbd6e8dd8.png)
+
+고객이 수리기사를 호출취소요청한다.(ok)
+수리기사 관리 시스템이 수리기사 할당 취소를 요청한다.(ok)
+수리기사 할당이 취소된다.(ok)
+취소상태로 갱신한다.(ok)
+고객에게 카톡 알림을 한다.(ok)
+![image](https://user-images.githubusercontent.com/78134019/109759024-c24c0080-7c2f-11eb-9110-9958d6fda6e0.png)
+
+
+
+
+![image](https://user-images.githubusercontent.com/78134019/109759043-ca0ba500-7c2f-11eb-8a81-dd3fe5bb7978.png)
   
 	- 고객이 호출진행내역을 볼 수 있어야 한다. (ok)
 
 
 ### 비기능 요구사항 검증
 
-![비기능적요구사항](https://user-images.githubusercontent.com/78134019/109457342-0b6c4b00-7a9e-11eb-8ab9-8b26e93d4cf0.jpg)
+![image](https://user-images.githubusercontent.com/78134019/109759128-ec9dbe00-7c2f-11eb-8526-ad47657e1b92.png)
 
-1) 마이크로 서비스를 넘나드는 시나리오에 대한 트랜잭션 처리 
-   택시 할당요청이 완료되지 않은 호출요청 완료처리는 최종 할당이 되지 않는 경우 무한정 대기 등 대고객 서비스 및 신뢰도에 치명적 문제점이 있어 ACID 트랜잭션 적용. 
-   호출요청 시 택시 할당요청에 대해서는 Request-Response 방식 처리 
-2) 호출요청 완료시 할당확인 및 결과 전송: Taxi manage service 에서taxi Assign 마이크로서비스로 택시할당 요청이 전달되는 과정에 있어서 
+
+마이크로 서비스를 넘나드는 시나리오에 대한 트랜잭션 처리 
+수리기사 할당요청이 완료되지 않은 호출요청 완료처리는 최종 할당이 되지 않는 경우 
+무한정 대기 등 대고객 서비스 및 신뢰도에 치명적 문제점이 있어 ACID 트랜잭션 적용. 
+    호출요청 시 수리기사 할당요청에 대해서는 Request-Response 방식 처리 
+2) 호출요청 완료시 할당확인 및 결과 전송: Taxi manage service 에서
+ taxi Assign 마이크로서비스로 수리기사할당 요청이 전달되는 과정에 있어서 
   taxi Assig 마이크로 서비스가 별도의 배포주기를 가지기 때문에 Eventual Consistency 방식으로 트랜잭션 처리함. 
-3) 나머지 모든 inter-microservice 트랜잭션: 호출상태, 할당/할당취소 여부 등 이벤트에 대해 카톡을 처리하는 등 데이터 일관성의 시점이 크리티컬하지 않은 모든 경우가 대부분이라 판단, 
-Eventual Consistency 를 기본으로 채택함. 
+3) 나머지 모든 inter-microservice 트랜잭션: 호출상태, 할당/할당취소 여부 등 이벤트에 대해 카톡을 처리하는 등, 
+데이터 일관성의 시점이 크리티컬하지 않은 모든 경우가 대부분이라 판단, Eventual Consistency 를 기본으로 채택함![image](https://user-images.githubusercontent.com/78134019/109759203-ffb08e00-7c2f-11eb-9631-26676f71a914.png)
+
 
 
 
 ## 헥사고날 아키텍처 다이어그램 도출 (Polyglot)
 
-![핵사고날수정됨](screenshots/hexagonal_archi.png "헥사고날아키텍처")
+![image](https://user-images.githubusercontent.com/78134019/109759267-1525b800-7c30-11eb-912f-3fcc3989fcdf.png)
+
+
 
 
 
 # 구현:
 
 서비스를 로컬에서 실행하는 방법은 아래와 같다 
-각 서비스별로 bat 을 파일로 실행한다. 
+각 서비스별로 bat 파일로 실행한다. 
 
 ```
 - run_taxicall.bat
 call setenv.bat
+REM java  -Xmx400M -Djava.security.egd=file:/dev/./urandom -jar food-delivery\app\target\app-0.0.1-SNAPSHOT.jar --spring.profiles.active=docker
+REM java  -Xmx400M -Djava.security.egd=file:/dev/./urandom -jar food-delivery\app\target\app-0.0.1-SNAPSHOT.jar --spring.profiles.active=default
 cd ..\taxiguider\taxicall
 mvn clean spring-boot:run
 pause ..
 
 - run_taximanage.bat
 call setenv.bat
+REM java  -Xmx400M -Djava.security.egd=file:/dev/./urandom -jar food-delivery\pay\target\pay-0.0.1-SNAPSHOT.jar --spring.profiles.active=docker
+REM java  -Xmx400M -Djava.security.egd=file:/dev/./urandom -jar food-delivery\pay\target\pay-0.0.1-SNAPSHOT.jar --spring.profiles.active=default
 cd ..\taxiguider\taximanage
 mvn clean spring-boot:run
 pause ..
 
 - run_taxiassign.bat
 call setenv.bat
+REM java  -Xmx400M -Djava.security.egd=file:/dev/./urandom -jar food-delivery\store\target\store-0.0.1-SNAPSHOT.jar --spring.profiles.active=docker
+REM java  -Xmx400M -Djava.security.egd=file:/dev/./urandom -jar food-delivery\store\target\store-0.0.1-SNAPSHOT.jar --spring.profiles.active=default
 cd ..\taxiguider\taxiassign
 mvn clean spring-boot:run
 pause ..
@@ -182,21 +194,6 @@ cd ..\taxiguider_py\customer\
 python policy-handler.py 
 pause ..
 
-```
-
-setenv.bat
-```
-SET JAVA_HOME=C:\DEV\SDK\JDK\jdk1.8.0_131
-SET MVN_HOME=C:\DEV\Tools\apache-maven-3.6.3
-SET NODE_HOME=C:\DEV\Tools\nodejs
-SET KAFKA_HOME=C:\DEV\Tools\kafka_2.13-2.7.0
-SET ANACONDA_HOME=C:\DEV\SDK\Anaconda3
-SET MONGO_HOME=C:\DEV\Tools\mongodb
-SET MARIA_HOME=C:\DEV\Tools\mariadb-10.3.13-winx64
-SET MARIA_DATA=C:\DEV\DATA\mariadb
-
-
-SET PATH=%MARIA_HOME%\BIN;%MONGO_HOME%\BIN;%KAFKA_HOME%\BIN\WINDOWS;%JAVA_HOME%\BIN;%MVN_HOME%\BIN;%PATH%;
 ```
 
 ## DDD 의 적용
@@ -212,14 +209,19 @@ SET PATH=%MARIA_HOME%\BIN;%MONGO_HOME%\BIN;%KAFKA_HOME%\BIN\WINDOWS;%JAVA_HOME%\
 
 ## 폴리글랏 퍼시스턴스
 
+```
+위치 : /taxiguider>taximanage>pom.xml
+```
+![폴리그랏DB_최종](https://user-images.githubusercontent.com/78134019/109745194-d800fc00-7c16-11eb-87bd-2f65884a5f71.jpg)
 
-
-![폴리그랏](https://user-images.githubusercontent.com/78134019/109483794-02da3b80-7ac3-11eb-8714-40f1f41164bb.jpg)
 
 
 ## 폴리글랏 프로그래밍 - 파이썬
+```
+위치 : /taxiguider_py>cutomer>policy-handler.py
+```
+![폴리그랏프로그래밍](https://user-images.githubusercontent.com/78134019/109745241-ebac6280-7c16-11eb-8839-6c974340839b.jpg)
 
-![폴리그랏프로그래밍](https://user-images.githubusercontent.com/78134019/109489189-dbd33800-7ac9-11eb-86f5-bbdb072454ce.jpg)
 
 ## 마이크로 서비스 호출 흐름
 
@@ -438,65 +440,80 @@ http localhost:8081/택시호출s 휴대폰번호="01012345678" 호출상태="�
 ![고객View](https://user-images.githubusercontent.com/78134019/109483385-80ea1280-7ac2-11eb-9419-bf3ff5a0dbbc.png)
 
 
-======================================================================================================================
+---mvn MSA Service
+<gateway>
+	
+![mvn_gateway](https://user-images.githubusercontent.com/78134019/109744124-244b3c80-7c15-11eb-80a9-bed42413aa58.png)
+	
+<taxicall>
+	
+![mvn_taxicall](https://user-images.githubusercontent.com/78134019/109744165-31682b80-7c15-11eb-9d94-7bc23efca6b6.png)
+
+<taximanage>
+	
+![mvn_taximanage](https://user-images.githubusercontent.com/78134019/109744195-3b8a2a00-7c15-11eb-9554-1c3ba088af52.png)
+
+<taxiassign>
+	
+![mvn_taxiassign](https://user-images.githubusercontent.com/78134019/109744226-46dd5580-7c15-11eb-8b47-5100ed01e3ae.png)
+
+
 # 운영
 
 ## Deploy / Pipeline
 
-- 네임스페이스 만들기
+- az login
 ```
-kubectl create ns phone82
-kubectl get ns
+{
+    "cloudName": "AzureCloud",
+    "homeTenantId": "6011e3f8-2818-42ea-9a63-66e6acc13e33",
+    "id": "718b6bd0-fb75-4ec9-9f6e-08ae501f92ca",
+    "isDefault": true,
+    "managedByTenants": [],
+    "name": "2",
+    "state": "Enabled",
+    "tenantId": "6011e3f8-2818-42ea-9a63-66e6acc13e33",
+    "user": {
+      "name": "skTeam03@gkn2021hotmail.onmicrosoft.com",
+      "type": "user"
+    }
+  }
 ```
-![image](https://user-images.githubusercontent.com/73699193/97960790-6d20ef00-1df5-11eb-998d-d5591975b5d4.png)
 
-- 폴더 만들기, 해당폴더로 이동
-```
-mkdir phone82
-cd phone 82
-```
-![image](https://user-images.githubusercontent.com/73699193/97961127-0ea84080-1df6-11eb-81b3-1d5e460d4c0f.png)
 
-- 소스 가져오기
+- account set 
 ```
-git clone https://github.com/phone82/app.git
+az account set --subscription "종량제2"
 ```
-![image](https://user-images.githubusercontent.com/73699193/98089346-eb4cc680-1ec5-11eb-9c23-f6987dee9308.png)
 
-- 빌드하기
-```
-cd app
-mvn package -Dmaven.test.skip=true
-```
-![image](https://user-images.githubusercontent.com/73699193/98089442-19320b00-1ec6-11eb-88b5-544cd123d62a.png)
 
-- 도커라이징: Azure 레지스트리에 도커 이미지 푸시하기
+- 리소스그룹생성
 ```
-az acr build --registry admin02 --image admin02.azurecr.io/app:latest .
+그룹명 : skccteam03-rsrcgrp
 ```
-![image](https://user-images.githubusercontent.com/73699193/98089685-6dd58600-1ec6-11eb-8fb9-80705c854c7b.png)
 
-- 컨테이너라이징: 디플로이 생성 확인
-```
-kubectl create deploy app --image=admin02.azurecr.io/app:latest -n phone82
-kubectl get all -n phone82
-```
-![image](https://user-images.githubusercontent.com/73699193/98090560-83977b00-1ec7-11eb-9770-9cfe1021f0b4.png)
 
-- 컨테이너라이징: 서비스 생성 확인
+- 클러스터 생성
 ```
-kubectl expose deploy app --type="ClusterIP" --port=8080 -n phone82
-kubectl get all -n phone82
+클러스터 명 : skccteam03-aks
 ```
-![image](https://user-images.githubusercontent.com/73699193/98090693-b80b3700-1ec7-11eb-959e-fc0ce94663aa.png)
 
-- pay, store, customer, gateway에도 동일한 작업 반복
+- 토큰 가져오기
+```
+az aks get-credentials --resource-group skccteam03-rsrcgrp --name skccteam03-aks
+```
 
+- aks에 acr 붙이기
+```
+az aks update -n skccteam03-aks -g skccteam03-rsrcgrp --attach-acr skccteam03
+```
+
+![aks붙이기](https://user-images.githubusercontent.com/78134019/109653395-540e2c00-7ba4-11eb-97dd-2dcfdf5dc539.jpg)
 
 
 
--(별첨)deployment.yml을 사용하여 배포 
-
+-deployment.yml을 사용하여 배포 
+--> 도커 이미지 만들기 붙이기 
 - deployment.yml 편집
 ```
 namespace, image 설정
@@ -505,13 +522,27 @@ readiness 설정 (무정지 배포)
 liveness 설정 (self-healing)
 resource 설정 (autoscaling)
 ```
-![image](https://user-images.githubusercontent.com/73699193/98092861-8182eb80-1eca-11eb-87c5-afa22140ebad.png)
+![deployment_yml](https://user-images.githubusercontent.com/78134019/109652001-9171ba00-7ba2-11eb-8c29-7128ceb4ec97.jpg)
 
 - deployment.yml로 서비스 배포
 ```
 cd app
 kubectl apply -f kubernetes/deployment.yml
 ```
+<Deploy cutomer>
+![deploy_customer](https://user-images.githubusercontent.com/78134019/109744443-a471a200-7c15-11eb-94c9-a0c0a7999d04.png)
+
+<Deploy gateway>
+![deploy_gateway](https://user-images.githubusercontent.com/78134019/109744457-acc9dd00-7c15-11eb-8502-ff65e779e9d2.png)
+
+<Deploy taxiassign>
+![deploy_taxiassign](https://user-images.githubusercontent.com/78134019/109744471-b3585480-7c15-11eb-8d68-bba9c3d8ce01.png)
+
+<Deploy taxicall>
+![deploy_taxicall](https://user-images.githubusercontent.com/78134019/109744487-bb17f900-7c15-11eb-8bd0-ff0a9fc9b2e3.png)
+
+<Deploy_taximanage>
+![deploy_taximanage](https://user-images.githubusercontent.com/78134019/109744591-e69ae380-7c15-11eb-834a-44befae55092.png)
 
 ## 동기식 호출 / 서킷 브레이킹 / 장애격리
 
@@ -525,7 +556,15 @@ kubectl apply -f kubernetes/deployment.yml
 feign:
   hystrix:
     enabled: true
-    
+
+# To set thread isolation to SEMAPHORE
+#hystrix:
+#  command:
+#    default:
+#      execution:
+#        isolation:
+#          strategy: SEMAPHORE
+
 hystrix:
   command:
     # 전역설정
@@ -533,8 +572,10 @@ hystrix:
       execution.isolation.thread.timeoutInMilliseconds: 610
 
 ```
-![image](https://user-images.githubusercontent.com/73699193/98093705-a166df00-1ecb-11eb-83b5-f42e554f7ffd.png)
+![hystrix](https://user-images.githubusercontent.com/78134019/109652345-0218d680-7ba3-11eb-847b-708ba071c119.jpg)
 
+
+-----------------------------------------
 * siege 툴 사용법:
 ```
  siege가 생성되어 있지 않으면:
