@@ -158,72 +158,35 @@
 서비스를 로컬에서 실행하는 방법은 아래와 같다 
 각 서비스별로 bat 파일로 실행한다. 
 
-```
-- run_taxicall.bat
-call setenv.bat
-REM java  -Xmx400M -Djava.security.egd=file:/dev/./urandom -jar food-delivery\app\target\app-0.0.1-SNAPSHOT.jar --spring.profiles.active=docker
-REM java  -Xmx400M -Djava.security.egd=file:/dev/./urandom -jar food-delivery\app\target\app-0.0.1-SNAPSHOT.jar --spring.profiles.active=default
-cd ..\taxiguider\taxicall
-mvn clean spring-boot:run
-pause ..
 
-- run_taximanage.bat
-call setenv.bat
-REM java  -Xmx400M -Djava.security.egd=file:/dev/./urandom -jar food-delivery\pay\target\pay-0.0.1-SNAPSHOT.jar --spring.profiles.active=docker
-REM java  -Xmx400M -Djava.security.egd=file:/dev/./urandom -jar food-delivery\pay\target\pay-0.0.1-SNAPSHOT.jar --spring.profiles.active=default
-cd ..\taxiguider\taximanage
-mvn clean spring-boot:run
-pause ..
-
-- run_taxiassign.bat
-call setenv.bat
-REM java  -Xmx400M -Djava.security.egd=file:/dev/./urandom -jar food-delivery\store\target\store-0.0.1-SNAPSHOT.jar --spring.profiles.active=docker
-REM java  -Xmx400M -Djava.security.egd=file:/dev/./urandom -jar food-delivery\store\target\store-0.0.1-SNAPSHOT.jar --spring.profiles.active=default
-cd ..\taxiguider\taxiassign
-mvn clean spring-boot:run
-pause ..
-
-- run_customer.bat
-call setenv.bat
-SET CONDA_PATH=%ANACONDA_HOME%;%ANACONDA_HOME%\BIN;%ANACONDA_HOME%\condabin;%ANACONDA_HOME%\Library\bin;%ANACONDA_HOME%\Scripts;
-SET PATH=%CONDA_PATH%;%PATH%;
-cd ..\taxiguider_py\customer\
-python policy-handler.py 
-pause ..
-
-```
 
 ## DDD 의 적용
 총 3개의 Domain 으로 관리되고 있으며, 택시요청(Taxicall) , 택시관리(TaxiManage), 택시할당(TaxiAssign) 으로 구성된다. 
 
 
-![DDD](https://user-images.githubusercontent.com/78134019/109460756-74ef5800-7aa4-11eb-8140-ec3ebb47a63f.jpg)
+![ddd](https://user-images.githubusercontent.com/78134019/109791022-59777f00-7c55-11eb-87e6-a40596483b1d.jpg)
 
 
-![DDD_2](https://user-images.githubusercontent.com/78134019/109460847-9ea87f00-7aa4-11eb-8fe4-94dd57009cd4.jpg)
+
+![ddd2](https://user-images.githubusercontent.com/78134019/109791032-5d0b0600-7c55-11eb-9395-8202a43cefc4.jpg)
+
 
 
 
 ## 폴리글랏 퍼시스턴스
 
 ```
-위치 : /taxiguider>taximanage>pom.xml
+asmanmanage>pom.xml
 ```
-![폴리그랏DB_최종](https://user-images.githubusercontent.com/78134019/109745194-d800fc00-7c16-11eb-87bd-2f65884a5f71.jpg)
+![poly1](https://user-images.githubusercontent.com/78134019/109791078-68f6c800-7c55-11eb-9de7-edcd4271049c.jpg)
 
 
-
-## 폴리글랏 프로그래밍 - 파이썬
-```
-위치 : /taxiguider_py>cutomer>policy-handler.py
-```
-![폴리그랏프로그래밍](https://user-images.githubusercontent.com/78134019/109745241-ebac6280-7c16-11eb-8839-6c974340839b.jpg)
 
 
 ## 마이크로 서비스 호출 흐름
 
-- taxicall 서비스 호출처리
-호출(taxicall)->택시관리(taximanage) 간의 호출처리 됨.
+- asmancall 서비스 호출처리
+수리기사호출(asmancall)->수리기사관리(asmanmanage) 간의 호출처리 됨.
 택시 할당에서 택시기사를 할당하여 호출 확정 상태가 됨.
 두 개의 호출 상태
 를 만듬.
@@ -602,40 +565,39 @@ siege -c100 -t60S -r10 -v --content-type "application/json" 'http://app:8080/ord
 
 ### 오토스케일 아웃
 
-- 대리점 시스템에 대한 replica 를 동적으로 늘려주도록 HPA 를 설정한다. 설정은 CPU 사용량이 15프로를 넘어서면 replica 를 10개까지 늘려준다:
+
 
 ```
 # autocale out 설정
-store > deployment.yml 설정
+ deployment.yml 설정
 ```
-![image](https://user-images.githubusercontent.com/73699193/98187434-44fbd200-1f54-11eb-9859-daf26f812788.png)
-
-```
-kubectl autoscale deploy store --min=1 --max=10 --cpu-percent=15 -n phone82
-```
-![image](https://user-images.githubusercontent.com/73699193/98100149-ce1ef480-1ed3-11eb-908e-a75b669d611d.png)
 
 
--
-- CB 에서 했던 방식대로 워크로드를 2분 동안 걸어준다.
+![auto1](https://user-images.githubusercontent.com/78134019/109794479-3ea70980-7c59-11eb-8d32-fbc039106c8c.jpg)
+
+
 ```
-kubectl exec -it pod/siege-5c7c46b788-4rn4r -c siege -n phone82 -- /bin/bash
-siege -c100 -t120S -r10 -v --content-type "application/json" 'http://store:8080/storeManages POST {"orderId":"456", "process":"Payed"}'
+kubectl autoscale deploy taxicall --min=1 --max=10 --cpu-percent=15 -n team03
+
 ```
-![image](https://user-images.githubusercontent.com/73699193/98102543-0d9b1000-1ed7-11eb-9cb6-91d7996fc1fd.png)
+
+
+```
+root@labs--279084598:/home/project# kubectl exec -it pod/siege-5459b87f86-hlfm9 -c siege -n team03 -- /bin/bash
+root@siege-5459b87f86-hlfm9:/# siege -c100 -t120S -r10 -v --content-type "application/json" 'http://20.194.36.201:8080/taxicalls POST {"tel": "0101231234"}'
+
+```
+![auto4](https://user-images.githubusercontent.com/78134019/109794919-b70dca80-7c59-11eb-9710-8ff6b4dd5f54.jpg)
+
+
 
 - 오토스케일이 어떻게 되고 있는지 모니터링을 걸어둔다:
 ```
-kubectl get deploy store -w -n phone82
+kubectl get deploy taxicall -w -n team03
+
 ```
-- 어느정도 시간이 흐른 후 스케일 아웃이 벌어지는 것을 확인할 수 있다. max=10 
-- 부하를 줄이니 늘어난 스케일이 점점 줄어들었다.
+![auto6](https://user-images.githubusercontent.com/78134019/109795092-e1f81e80-7c59-11eb-8019-4af5eb03f773.jpg)
 
-![image](https://user-images.githubusercontent.com/73699193/98102926-92862980-1ed7-11eb-8f19-a673d72da580.png)
-
-- 다시 부하를 주고 확인하니 Availability가 높아진 것을 확인 할 수 있었다.
-
-![image](https://user-images.githubusercontent.com/73699193/98103249-14765280-1ed8-11eb-8c7c-9ea1c67e03cf.png)
 
 
 ## 무정지 재배포
