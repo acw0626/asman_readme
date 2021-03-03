@@ -4,14 +4,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 
-import taxiguider.택시호출RepositoryListener;
+import taxiguider.수리기사호출RepositoryListener;
 
 @Configuration
 @EnableMongoAuditing
 public class TaxicallAppConfig {
 	@Bean
-    public 택시호출RepositoryListener 택시호출RepositoryListener() {
-        return new 택시호출RepositoryListener();
+    public 수리기사호출RepositoryListener 수리기사호출RepositoryListener() {
+        return new 수리기사호출RepositoryListener();
     }
 
 }

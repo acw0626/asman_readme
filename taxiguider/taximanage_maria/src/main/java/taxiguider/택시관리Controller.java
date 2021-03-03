@@ -10,6 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
  @RestController
- public class 택시관리Controller {
+ public class 수리기사관리Controller {
 
  }

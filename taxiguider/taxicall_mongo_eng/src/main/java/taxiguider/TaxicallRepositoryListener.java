@@ -40,9 +40,9 @@ public class TaxicallRepositoryListener extends AbstractMongoEventListener<Taxim
 	@Override
 	public void onAfterSave(AfterSaveEvent<Taximanage> event) {
 		super.onAfterSave(event);
-//      택시호출요청됨 택시호출요청됨 = new 택시호출요청됨();
-//      BeanUtils.copyProperties(this, 택시호출요청됨);
-//      택시호출요청됨.publishAfterCommit();
+//      수리기사호출요청됨 수리기사호출요청됨 = new 수리기사호출요청됨();
+//      BeanUtils.copyProperties(this, 수리기사호출요청됨);
+//      수리기사호출요청됨.publishAfterCommit();
 		Taximanage taxiM = event.getSource();
 		System.out.println("휴대폰번호 " + taxiM.getTel());
 		System.out.println("호출위치 " + taxiM.getLocation());

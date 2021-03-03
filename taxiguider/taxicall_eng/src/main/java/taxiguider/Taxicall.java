@@ -28,9 +28,9 @@ public class Taxicall {
 	
     @PostPersist
     public void onPostPersist(){
-//        택시호출요청됨 택시호출요청됨 = new 택시호출요청됨();
-//        BeanUtils.copyProperties(this, 택시호출요청됨);
-//        택시호출요청됨.publishAfterCommit();
+//        수리기사호출요청됨 수리기사호출요청됨 = new 수리기사호출요청됨();
+//        BeanUtils.copyProperties(this, 수리기사호출요청됨);
+//        수리기사호출요청됨.publishAfterCommit();
     	
     	System.out.println("휴대폰번호 " + getTel());
         System.out.println("호출위치 " + getLocation());
@@ -68,15 +68,15 @@ public class Taxicall {
 		//Following code causes dependency to external APIs
 		// it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
 
-		//택시관리 택시관리 = new 택시관리();
+		//수리기사관리 수리기사관리 = new 수리기사관리();
 		// mappings goes here
-		//택시관리.setId(getId());
-		//택시관리.setOrderId(String.valueOf(getId()));
-		//택시관리.set호출상태("호출취소");
-		//택시관리.set고객휴대폰번호(get휴대폰번호());
+		//수리기사관리.setId(getId());
+		//수리기사관리.setOrderId(String.valueOf(getId()));
+		//수리기사관리.set호출상태("호출취소");
+		//수리기사관리.set고객휴대폰번호(get휴대폰번호());
 		
 		// mappings goes here
-		//TaxicallApplication.applicationContext.getBean(택시관리Service.class).택시할당요청(택시관리);
+		//TaxicallApplication.applicationContext.getBean(수리기사관리Service.class).수리기사할당요청(수리기사관리);
 	}
 
 

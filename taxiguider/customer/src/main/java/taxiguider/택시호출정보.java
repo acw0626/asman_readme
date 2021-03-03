@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="택시호출정보_table")
-public class 택시호출정보 {
+@Table(name="수리기사호출정보_table")
+public class 수리기사호출정보 {
 
         @Id
         @GeneratedValue(strategy=GenerationType.AUTO)

@@ -3,7 +3,7 @@ package taxiguider;
 import org.springframework.data.annotation.Id;
 
 //@Entity
-//@Table(name="택시호출_table")
+//@Table(name="수리기사호출_table")
 public class Taxicall {
 
     @Id
@@ -17,9 +17,9 @@ public class Taxicall {
 	
 //    @PostPersist
 //    public void onPostPersist(){
-//        택시호출요청됨 택시호출요청됨 = new 택시호출요청됨();
-//        BeanUtils.copyProperties(this, 택시호출요청됨);
-//        택시호출요청됨.publishAfterCommit();
+//        수리기사호출요청됨 수리기사호출요청됨 = new 수리기사호출요청됨();
+//        BeanUtils.copyProperties(this, 수리기사호출요청됨);
+//        수리기사호출요청됨.publishAfterCommit();
     	
 //    	System.out.println("휴대폰번호 " + get휴대폰번호());
  //       System.out.println("호출위치 " + get호출위치());
@@ -30,19 +30,19 @@ public class Taxicall {
 //    	if(get휴대폰번호() != null)
 //		{
 //   		System.out.println("SEND###############################" + getId());
-//			택시관리 택시관리 = new 택시관리();
+//			수리기사관리 수리기사관리 = new 수리기사관리();
 //	        
-//			택시관리.setOrderId(getId());
-//	        택시관리.set고객휴대폰번호(get휴대폰번호());
+//			수리기사관리.setOrderId(getId());
+//	        수리기사관리.set고객휴대폰번호(get휴대폰번호());
 //	        if(get호출위치()!=null) 
-//	        	택시관리.set호출위치(get호출위치());
+//	        	수리기사관리.set호출위치(get호출위치());
 //	        if(get호출상태()!=null) 
-//	        	택시관리.set호출상태(get호출상태());
+//	        	수리기사관리.set호출상태(get호출상태());
 //	        if(get예상요금()!=null) 
-//	        	택시관리.set예상요금(get예상요금());
+//	        	수리기사관리.set예상요금(get예상요금());
 //	        
 //	        // mappings goes here
-//	        TaxicallApplication.applicationContext.getBean(택시관리Service.class).택시할당요청(택시관리);
+//	        TaxicallApplication.applicationContext.getBean(수리기사관리Service.class).수리기사할당요청(수리기사관리);
 //		}
     	
 //        호출취소됨 호출취소됨 = new 호출취소됨();

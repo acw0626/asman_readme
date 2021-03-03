@@ -5,7 +5,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface 택시호출정보Repository extends CrudRepository<택시호출정보, Long> {
+public interface 수리기사호출정보Repository extends CrudRepository<수리기사호출정보, Long> {
 
 
 }

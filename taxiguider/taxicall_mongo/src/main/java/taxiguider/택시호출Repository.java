@@ -4,9 +4,9 @@ import java.util.Optional;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface 택시호출Repository extends PagingAndSortingRepository<택시호출, Long>{
+public interface 수리기사호출Repository extends PagingAndSortingRepository<수리기사호출, Long>{
 
-	Optional<택시호출> findBy휴대폰번호(String 휴대폰번호);
+	Optional<수리기사호출> findBy휴대폰번호(String 휴대폰번호);
 
 
 }

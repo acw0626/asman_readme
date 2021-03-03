@@ -3,7 +3,7 @@ package taxiguider;
 import org.springframework.web.bind.annotation.RestController;
 
  @RestController
- public class 택시호출Controller {
+ public class 수리기사호출Controller {
 
 
  }

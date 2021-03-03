@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class 택시호출정보ViewHandler {
+public class 수리기사호출정보ViewHandler {
 
 
     @Autowired
-    private 택시호출정보Repository 택시호출정보Repository;
+    private 수리기사호출정보Repository 수리기사호출정보Repository;
 
 
 

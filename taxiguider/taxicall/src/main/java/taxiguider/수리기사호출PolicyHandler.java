@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import taxiguider.config.kafka.KafkaProcessor;
 
 @Service
-public class 택시호출PolicyHandler {
+public class 수리기사호출PolicyHandler {
 	@Autowired
-	택시호출Repository 택시호출Repository;
+	수리기사호출Repository 수리기사호출Repository;
 
 	@StreamListener(KafkaProcessor.INPUT)
 	public void onStringEventListener(@Payload String eventString) {
@@ -33,21 +33,21 @@ public class 택시호출PolicyHandler {
 
 			// Correlation id 는 '고객휴대폰번호' 임
 			if(할당확인됨.getId() != null)
-				택시호출Repository.findById(Long.valueOf(할당확인됨.getId())).ifPresent((택시호출) -> {
-					택시호출.set호출상태("호출확정");
-					택시호출Repository.save(택시호출);
+				수리기사호출Repository.findById(Long.valueOf(할당확인됨.getId())).ifPresent((수리기사호출) -> {
+					수리기사호출.set호출상태("호출확정");
+					수리기사호출Repository.save(수리기사호출);
 				});
-//			택시호출Repository.findBy휴대폰번호(할당확인됨.get고객휴대폰번호()).ifPresent((택시호출) -> {
+//			수리기사호출Repository.findBy휴대폰번호(할당확인됨.get고객휴대폰번호()).ifPresent((수리기사호출) -> {
 //				System.out.println("할당확인됨 = " + 할당확인됨.get고객휴대폰번호());
-//				택시호출.set호출상태("호출확정");
-//				택시호출Repository.save(택시호출);
+//				수리기사호출.set호출상태("호출확정");
+//				수리기사호출Repository.save(수리기사호출);
 //			});
 		}
 
 //		if (할당확인됨.isMe()) {
-//			택시호출 호출 = new 택시호출();
+//			수리기사호출 호출 = new 수리기사호출();
 //			호출.set호출상태(할당확인됨.get할당상태());
-//			택시호출Repository.save(호출);
+//			수리기사호출Repository.save(호출);
 //
 //			System.out.println("##### listener[할당확인됨]  : " + 할당확인됨.toJson());
 //		}
@@ -58,9 +58,9 @@ public class 택시호출PolicyHandler {
 		System.out.println("##### EVT TYPE[할당취소됨]  : " + 할당취소됨.getEventType());
 		if (할당취소됨.isMe()) {
 			System.out.println("##### listener[할당취소됨]  : " + 할당취소됨.toJson());
-			택시호출Repository.findById(Long.valueOf(할당취소됨.getId())).ifPresent((택시호출) -> {
-				택시호출.set호출상태("호출취소");
-				택시호출Repository.save(택시호출);
+			수리기사호출Repository.findById(Long.valueOf(할당취소됨.getId())).ifPresent((수리기사호출) -> {
+				수리기사호출.set호출상태("호출취소");
+				수리기사호출Repository.save(수리기사호출);
 			});
 		}
 	}

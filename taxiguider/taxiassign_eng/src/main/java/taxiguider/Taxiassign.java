@@ -21,7 +21,7 @@ public class Taxiassign {
     
     @PrePersist
     public void onPrePersist(){
-    	System.out.println("==============택시할당================");
+    	System.out.println("==============수리기사할당================");
 
 
         //할당확인됨 할당확인됨 = new 할당확인됨();

@@ -12,6 +12,6 @@ import java.util.Date;
 public interface TaxiManagementService {
 
     @RequestMapping(method= RequestMethod.GET, path="/taxiManagements")
-    public void 택시할당요청(@RequestBody TaxiManagement taxiManagement);
+    public void 수리기사할당요청(@RequestBody TaxiManagement taxiManagement);
 
 }

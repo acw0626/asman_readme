@@ -1,7 +1,7 @@
 
 package taxiguider;
 
-public class 택시할당요청됨 extends AbstractEvent {
+public class 수리기사할당요청됨 extends AbstractEvent {
 
     private Long id;
     private String 고객휴대폰번호;

@@ -9,8 +9,8 @@ import org.springframework.data.mongodb.core.mapping.event.AfterSaveEvent;
 import org.springframework.data.mongodb.core.mapping.event.BeforeConvertEvent;
 import org.springframework.data.mongodb.core.mapping.event.BeforeSaveEvent;
 
-import taxiguider.external.택시관리;
-import taxiguider.external.택시관리Service;
+import taxiguider.external.수리기사관리;
+import taxiguider.external.수리기사관리Service;
 
 /**
  * Equivalent of a domain method annotated by <code>PrePersist</code>.
@@ -19,13 +19,13 @@ import taxiguider.external.택시관리Service;
  * 
  * @author Tobias Trelle
  */
-public class 택시호출RepositoryListener extends AbstractMongoEventListener<택시관리> {
+public class 수리기사호출RepositoryListener extends AbstractMongoEventListener<수리기사관리> {
 
 	@Override
-	public void onBeforeSave(BeforeSaveEvent<택시관리> event) {
+	public void onBeforeSave(BeforeSaveEvent<수리기사관리> event) {
 		super.onBeforeSave(event);
 
-		택시관리 taxiM = event.getSource();
+		수리기사관리 taxiM = event.getSource();
 		Document d = event.getDocument();
 		System.out.println("===============>>>>>>=======================" + taxiM.getId());
 		if (taxiM.getId() == null) {
@@ -38,12 +38,12 @@ public class 택시호출RepositoryListener extends AbstractMongoEventListener<�
 	}
 
 	@Override
-	public void onAfterSave(AfterSaveEvent<택시관리> event) {
+	public void onAfterSave(AfterSaveEvent<수리기사관리> event) {
 		super.onAfterSave(event);
-//      택시호출요청됨 택시호출요청됨 = new 택시호출요청됨();
-//      BeanUtils.copyProperties(this, 택시호출요청됨);
-//      택시호출요청됨.publishAfterCommit();
-		택시관리 taxiM = event.getSource();
+//      수리기사호출요청됨 수리기사호출요청됨 = new 수리기사호출요청됨();
+//      BeanUtils.copyProperties(this, 수리기사호출요청됨);
+//      수리기사호출요청됨.publishAfterCommit();
+		수리기사관리 taxiM = event.getSource();
 		System.out.println("휴대폰번호 " + taxiM.get고객휴대폰번호());
 		System.out.println("호출위치 " + taxiM.get호출위치());
 		System.out.println("호출상태 " + taxiM.get호출상태());
@@ -52,19 +52,19 @@ public class 택시호출RepositoryListener extends AbstractMongoEventListener<�
 		// it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
 		if (taxiM.get고객휴대폰번호() != null) {
 			System.out.println("SEND###############################" + taxiM.getId());
-			택시관리 택시관리 = new 택시관리();
+			수리기사관리 수리기사관리 = new 수리기사관리();
 
-			택시관리.setOrderId(String.valueOf(taxiM.getId()));
-			택시관리.set고객휴대폰번호(taxiM.get고객휴대폰번호());
+			수리기사관리.setOrderId(String.valueOf(taxiM.getId()));
+			수리기사관리.set고객휴대폰번호(taxiM.get고객휴대폰번호());
 			if (taxiM.get호출위치() != null)
-				택시관리.set호출위치(taxiM.get호출위치());
+				수리기사관리.set호출위치(taxiM.get호출위치());
 			if (taxiM.get호출상태() != null)
-				택시관리.set호출상태(taxiM.get호출상태());
+				수리기사관리.set호출상태(taxiM.get호출상태());
 			if (taxiM.get예상요금() != null)
-				택시관리.set예상요금(taxiM.get예상요금());
+				수리기사관리.set예상요금(taxiM.get예상요금());
 
 			// mappings goes here
-			TaxicallApplication.applicationContext.getBean(택시관리Service.class).택시할당요청(택시관리);
+			TaxicallApplication.applicationContext.getBean(수리기사관리Service.class).수리기사할당요청(수리기사관리);
 		}
 
 //      호출취소됨 호출취소됨 = new 호출취소됨();
@@ -73,23 +73,23 @@ public class 택시호출RepositoryListener extends AbstractMongoEventListener<�
 	}
 
 	@Override
-	public void onBeforeConvert(BeforeConvertEvent<택시관리> event) {
+	public void onBeforeConvert(BeforeConvertEvent<수리기사관리> event) {
 		// super.onBeforeConvert(event);
 
 	}
 
 	@Override
-	public void onAfterLoad(AfterLoadEvent<택시관리> event) {
+	public void onAfterLoad(AfterLoadEvent<수리기사관리> event) {
 
 	}
 
 	@Override
-	public void onAfterDelete(AfterDeleteEvent<택시관리> event) {
+	public void onAfterDelete(AfterDeleteEvent<수리기사관리> event) {
 
 	}
 
 	@Override
-	public void onAfterConvert(AfterConvertEvent<택시관리> event) {
+	public void onAfterConvert(AfterConvertEvent<수리기사관리> event) {
 
 	}
 

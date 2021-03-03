@@ -37,17 +37,17 @@ public class TaxicallPolicyHandler {
 					taxicall.setStatus("호출확정");
 					txCallRepository.save(taxicall);
 				});
-//			택시호출Repository.findBy휴대폰번호(할당확인됨.get고객휴대폰번호()).ifPresent((택시호출) -> {
+//			수리기사호출Repository.findBy휴대폰번호(할당확인됨.get고객휴대폰번호()).ifPresent((수리기사호출) -> {
 //				System.out.println("할당확인됨 = " + 할당확인됨.get고객휴대폰번호());
-//				택시호출.set호출상태("호출확정");
-//				택시호출Repository.save(택시호출);
+//				수리기사호출.set호출상태("호출확정");
+//				수리기사호출Repository.save(수리기사호출);
 //			});
 		}
 
 //		if (할당확인됨.isMe()) {
-//			택시호출 호출 = new 택시호출();
+//			수리기사호출 호출 = new 수리기사호출();
 //			호출.set호출상태(할당확인됨.get할당상태());
-//			택시호출Repository.save(호출);
+//			수리기사호출Repository.save(호출);
 //
 //			System.out.println("##### listener[할당확인됨]  : " + 할당확인됨.toJson());
 //		}
@@ -58,9 +58,9 @@ public class TaxicallPolicyHandler {
 		System.out.println("##### EVT TYPE[할당취소됨]  : " + txcanceled.getEventType());
 		if (txcanceled.isMe()) {
 			System.out.println("##### listener[할당취소됨]  : " + txcanceled.toJson());
-			txCallRepository.findById(Long.valueOf(txcanceled.getId())).ifPresent((택시호출) -> {
-				택시호출.setStatus("호출취소");
-				txCallRepository.save(택시호출);
+			txCallRepository.findById(Long.valueOf(txcanceled.getId())).ifPresent((수리기사호출) -> {
+				수리기사호출.setStatus("호출취소");
+				txCallRepository.save(수리기사호출);
 			});
 		}
 	}

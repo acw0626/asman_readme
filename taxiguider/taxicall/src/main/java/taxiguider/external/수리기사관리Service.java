@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 //@FeignClient(name="taximanage", url="http://localhost:8082")
-@FeignClient(name="taximanage", url="http://localhost:8082", fallback = 택시관리ServiceFallback.class)
-public interface 택시관리Service {
+@FeignClient(name="taximanage", url="http://localhost:8082", fallback = 수리기사관리ServiceFallback.class)
+public interface 수리기사관리Service {
 
-    @RequestMapping(method= RequestMethod.POST, path="/택시관리s")
-    public void 택시할당요청(@RequestBody 택시관리 택시관리);
+    @RequestMapping(method= RequestMethod.POST, path="/수리기사관리s")
+    public void 수리기사할당요청(@RequestBody 수리기사관리 수리기사관리);
 
 }

@@ -11,8 +11,8 @@ import javax.persistence.Table;
 import org.springframework.beans.BeanUtils;
 
 @Entity
-@Table(name="택시관리_table")
-public class 택시관리 {
+@Table(name="수리기사관리_table")
+public class 수리기사관리 {
 	
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -24,17 +24,17 @@ public class 택시관리 {
     private String 호출상태; //호출,호출중,호출확정,호출취소
     private Integer 예상요금;
     
-    private String 택시번호;
-    private String 택시기사이름;
-    private String 택시기사전화번호;
+    private String 수리기사번호;
+    private String 수리기사기사이름;
+    private String 수리기사기사전화번호;
     
     @PrePersist
     public void onPrePersist(){
     	System.out.println("###############################=================================");
 
-//    	택시할당요청됨 택시할당요청됨 = new 택시할당요청됨();
-//        BeanUtils.copyProperties(this, 택시할당요청됨);
-//        택시할당요청됨.publishAfterCommit();
+//    	수리기사할당요청됨 수리기사할당요청됨 = new 수리기사할당요청됨();
+//        BeanUtils.copyProperties(this, 수리기사할당요청됨);
+//        수리기사할당요청됨.publishAfterCommit();
         System.out.println("휴대폰번호 " + 고객휴대폰번호);
         System.out.println("호출위치 " + 호출위치);
         System.out.println("호출상태 " + 호출상태);
@@ -48,9 +48,9 @@ public class 택시관리 {
     	
         
         if("호출취소".equals(호출상태)){
-			택시할당취소됨 택시할당취소됨 = new 택시할당취소됨();
-            BeanUtils.copyProperties(this, 택시할당취소됨);
-            택시할당취소됨.publish();
+			수리기사할당취소됨 수리기사할당취소됨 = new 수리기사할당취소됨();
+            BeanUtils.copyProperties(this, 수리기사할당취소됨);
+            수리기사할당취소됨.publish();
 
         }else{
 //            결제승인됨 결제승인됨 = new 결제승인됨();
@@ -65,9 +65,9 @@ public class 택시관리 {
 //                }
 //            });
         	
-//        	택시번호 = "";
-//            택시기사이름 = "";
-//            택시기사전화번호 = "";
+//        	수리기사번호 = "";
+//            수리기사기사이름 = "";
+//            수리기사기사전화번호 = "";
 //            orderId = "1";
 //            고객휴대폰번호 = "";
 //            호출위치 = "";
@@ -75,15 +75,15 @@ public class 택시관리 {
 //            예상요금 = 0;
             
         	호출상태 = "호출중";
-        	택시할당요청됨 택시할당요청됨 = new 택시할당요청됨();
-        	택시할당요청됨.setId(Long.valueOf(orderId));
+        	수리기사할당요청됨 수리기사할당요청됨 = new 수리기사할당요청됨();
+        	수리기사할당요청됨.setId(Long.valueOf(orderId));
         	
-        	택시할당요청됨.set고객위치(호출위치);
-        	택시할당요청됨.set고객휴대폰번호(고객휴대폰번호);
-        	택시할당요청됨.set예상요금(예상요금);
-        	택시할당요청됨.set호출상태(호출상태);
-            BeanUtils.copyProperties(this, 택시할당요청됨);
-            택시할당요청됨.publishAfterCommit();
+        	수리기사할당요청됨.set고객위치(호출위치);
+        	수리기사할당요청됨.set고객휴대폰번호(고객휴대폰번호);
+        	수리기사할당요청됨.set예상요금(예상요금);
+        	수리기사할당요청됨.set호출상태(호출상태);
+            BeanUtils.copyProperties(this, 수리기사할당요청됨);
+            수리기사할당요청됨.publishAfterCommit();
             
             
             // 테스트 코드~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -100,9 +100,9 @@ public class 택시관리 {
 //    public void onPostPersist(){
 //    	System.out.println("###############################=================================");
 //
-////    	택시할당요청됨 택시할당요청됨 = new 택시할당요청됨();
-////        BeanUtils.copyProperties(this, 택시할당요청됨);
-////        택시할당요청됨.publishAfterCommit();
+////    	수리기사할당요청됨 수리기사할당요청됨 = new 수리기사할당요청됨();
+////        BeanUtils.copyProperties(this, 수리기사할당요청됨);
+////        수리기사할당요청됨.publishAfterCommit();
 //        System.out.println("휴대폰번호 " + 고객휴대폰번호);
 //        System.out.println("호출위치 " + 호출위치);
 //        System.out.println("호출상태 " + 호출상태);
@@ -119,9 +119,9 @@ public class 택시관리 {
 ////            결제취소됨 결제취소됨 = new 결제취소됨();
 ////            BeanUtils.copyProperties(this, 결제취소됨);
 ////            결제취소됨.publish();
-////        	택시할당취소됨 택시할당취소됨 = new 택시할당취소됨();
-////            BeanUtils.copyProperties(this, 택시할당취소됨);
-////            택시할당취소됨.publish();
+////        	수리기사할당취소됨 수리기사할당취소됨 = new 수리기사할당취소됨();
+////            BeanUtils.copyProperties(this, 수리기사할당취소됨);
+////            수리기사할당취소됨.publish();
 //
 //        }else{
 ////            결제승인됨 결제승인됨 = new 결제승인됨();
@@ -136,9 +136,9 @@ public class 택시관리 {
 ////                }
 ////            });
 //        	
-////        	택시번호 = "";
-////            택시기사이름 = "";
-////            택시기사전화번호 = "";
+////        	수리기사번호 = "";
+////            수리기사기사이름 = "";
+////            수리기사기사전화번호 = "";
 ////            orderId = "1";
 ////            고객휴대폰번호 = "";
 ////            호출위치 = "";
@@ -146,15 +146,15 @@ public class 택시관리 {
 ////            예상요금 = 0;
 //            
 //        	호출상태 = "호출중";
-//        	택시할당요청됨 택시할당요청됨 = new 택시할당요청됨();
-//        	택시할당요청됨.setId(Long.valueOf(orderId));
+//        	수리기사할당요청됨 수리기사할당요청됨 = new 수리기사할당요청됨();
+//        	수리기사할당요청됨.setId(Long.valueOf(orderId));
 //        	
-//        	택시할당요청됨.set고객위치(호출위치);
-//        	택시할당요청됨.set고객휴대폰번호(고객휴대폰번호);
-//        	택시할당요청됨.set예상요금(예상요금);
-//        	택시할당요청됨.set호출상태(호출상태);
-//            BeanUtils.copyProperties(this, 택시할당요청됨);
-//            택시할당요청됨.publishAfterCommit();
+//        	수리기사할당요청됨.set고객위치(호출위치);
+//        	수리기사할당요청됨.set고객휴대폰번호(고객휴대폰번호);
+//        	수리기사할당요청됨.set예상요금(예상요금);
+//        	수리기사할당요청됨.set호출상태(호출상태);
+//            BeanUtils.copyProperties(this, 수리기사할당요청됨);
+//            수리기사할당요청됨.publishAfterCommit();
 //            
 //            
 //            // 테스트 코드~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -212,33 +212,33 @@ public class 택시관리 {
 	}
 
 
-	public String get택시번호() {
-		return 택시번호;
+	public String get수리기사번호() {
+		return 수리기사번호;
 	}
 
 
-	public void set택시번호(String 택시번호) {
-		this.택시번호 = 택시번호;
+	public void set수리기사번호(String 수리기사번호) {
+		this.수리기사번호 = 수리기사번호;
 	}
 
 
-	public String get택시기사이름() {
-		return 택시기사이름;
+	public String get수리기사기사이름() {
+		return 수리기사기사이름;
 	}
 
 
-	public void set택시기사이름(String 택시기사이름) {
-		this.택시기사이름 = 택시기사이름;
+	public void set수리기사기사이름(String 수리기사기사이름) {
+		this.수리기사기사이름 = 수리기사기사이름;
 	}
 
 
-	public String get택시기사전화번호() {
-		return 택시기사전화번호;
+	public String get수리기사기사전화번호() {
+		return 수리기사기사전화번호;
 	}
 
 
-	public void set택시기사전화번호(String 택시기사전화번호) {
-		this.택시기사전화번호 = 택시기사전화번호;
+	public void set수리기사기사전화번호(String 수리기사기사전화번호) {
+		this.수리기사기사전화번호 = 수리기사기사전화번호;
 	}
 
 
