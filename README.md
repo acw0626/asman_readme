@@ -446,53 +446,79 @@ http localhost:8081/택시호출s 휴대폰번호="01012345678" 호출상태="�
 
 - az login
 ```
-{
+[
+  {
     "cloudName": "AzureCloud",
     "homeTenantId": "6011e3f8-2818-42ea-9a63-66e6acc13e33",
-    "id": "718b6bd0-fb75-4ec9-9f6e-08ae501f92ca",
+    "id": "4fbdf9d7-3acd-463f-a273-dac3c2e16663",
     "isDefault": true,
     "managedByTenants": [],
-    "name": "2",
+    "name": "3",
     "state": "Enabled",
     "tenantId": "6011e3f8-2818-42ea-9a63-66e6acc13e33",
     "user": {
-      "name": "skTeam03@gkn2021hotmail.onmicrosoft.com",
+      "name": "skuser12@gkn2021hotmail.onmicrosoft.com",
       "type": "user"
     }
   }
+]
 ```
 
 
-- account set 
-```
-az account set --subscription "종량제2"
-```
 
 
 - 리소스그룹생성
 ```
-그룹명 : skccteam03-rsrcgrp
+그룹명 : skuser12-rsrcgrp
 ```
 
 
 - 클러스터 생성
 ```
-클러스터 명 : skccteam03-aks
+클러스터 명 : skuser12-aks
 ```
 
 - 토큰 가져오기
 ```
-az aks get-credentials --resource-group skccteam03-rsrcgrp --name skccteam03-aks
+az aks get-credentials --resource-group skuser12-rsrcgrp --name skuser12-aks
 ```
+![토큰가져오기](https://user-images.githubusercontent.com/78134019/109939151-1e885080-7d14-11eb-86ce-54198625a227.jpg)
+
 
 - aks에 acr 붙이기
 ```
-az aks update -n skccteam03-aks -g skccteam03-rsrcgrp --attach-acr skccteam03
+az aks update -n skuser12-aks -g skuser12-rsrcgrp --attach-acr skuser12
+```
+![acr붙이기](https://user-images.githubusercontent.com/78134019/109940026-fbaa6c00-7d14-11eb-995f-f54babebf3f8.jpg)
+
+
+-네임스페이스만들기
+```
+kubectl create ns asman
+kubectl get ns
+```
+![ns확인](https://user-images.githubusercontent.com/78134019/109940542-89865700-7d15-11eb-8ab2-4a3777ef02d2.jpg)
+
+
 ```
 
-![aks붙이기](https://user-images.githubusercontent.com/78134019/109653395-540e2c00-7ba4-11eb-97dd-2dcfdf5dc539.jpg)
+도커 이미지 만들어서 올리기
 
+cd gateway
+az acr build --registry skuser12 --image skuser12.azurecr.io/gateway:v1 .
+az acr build --registry skuser12 --image skuser12.azurecr.io/gateway:v2 .
+cd ..
+cd ascall
+az acr build --registry skuser12 --image skuser12.azurecr.io/ascall:v1 .
+cd ..
+cd asmanage
+az acr build --registry skuser12 --image skuser12.azurecr.io/asmanage:v1 .
+cd ..
+cd asassign
+az acr build --registry skuser12 --image skuser12.azurecr.io/asassign:v1 .
+cd ..
 
+```
 
 -deployment.yml을 사용하여 배포 
 --> 도커 이미지 만들기 붙이기 
