@@ -397,7 +397,6 @@ http localhost:8081/택시호출s 휴대폰번호="01012345678" 호출상태="�
 
 -fallback 
 
-![fallback_실행](https://user-images.githubusercontent.com/78134019/109935939-40340880-7d11-11eb-93d1-1df51245a38b.jpg)
 
 ![fallback](https://user-images.githubusercontent.com/78134019/109936008-44f8bc80-7d11-11eb-8088-8575b07ee376.jpg)
 
