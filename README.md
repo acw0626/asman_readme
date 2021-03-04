@@ -389,7 +389,7 @@ public class AsmanageServiceFallback implements AsmanageService {
 
 
 
-- 동기식 호출 적용으로 수리기사 관리 시스템이 정상적이지 않으면 , 수리기사콜도 접수될 수 없음을 확인 
+- 동기식 호출 적용으로 수리기사 관리 시스템이 정상적이지 않으면 , 수리기사콜도 접수될 수 없음을 확인 --> 확인못함
 ```
 # 수리기사 관리 시스템 down 후 ascall 호출 
 
