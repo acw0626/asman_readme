@@ -175,81 +175,76 @@ Eventual Consistency 를 기본으로 채택함.
 각 서비스별로 bat 파일로 실행한다. 
 
 ```
-
+<run_asmancall_eng.bat>
+<run_asmanmanage_eng.bat>
+<run_asmanassign_eng.bat>
+<run_gateway.bat>
 ```
 ## DDD 의 적용
-총 3개의 Domain 으로 관리되고 있으며, 택시요청(Taxicall) , 택시관리(TaxiManage), 택시할당(TaxiAssign) 으로 구성된다. 
+총 3개의 Domain 으로 관리되고 있으며, 수리기사요청(Asmancall) , 수리기사관리(AsmanManage), 수리기사할당(AsmanAssign) 으로 구성된다. 
 
+![msa](https://user-images.githubusercontent.com/78134019/109915613-76fc2580-7cf5-11eb-878e-738c5b2bf1db.jpg)
 
-![DDD](https://user-images.githubusercontent.com/78134019/109460756-74ef5800-7aa4-11eb-8140-ec3ebb47a63f.jpg)
-
-
-![DDD_2](https://user-images.githubusercontent.com/78134019/109460847-9ea87f00-7aa4-11eb-8fe4-94dd57009cd4.jpg)
-
+![MSA2](https://user-images.githubusercontent.com/78134019/109915638-7fecf700-7cf5-11eb-9b18-76d07a580fb4.jpg)
 
 
 ## 폴리글랏 퍼시스턴스
 
 ```
-위치 : /taxiguider>taximanage>pom.xml
+위치 : /asman>asmanmanage>pom.xml
 ```
-![폴리그랏DB_최종](https://user-images.githubusercontent.com/78134019/109745194-d800fc00-7c16-11eb-87bd-2f65884a5f71.jpg)
 
+![hsqldb](https://user-images.githubusercontent.com/78134019/109915773-be82b180-7cf5-11eb-9c50-68fdc3f4c385.jpg)
 
 
 ## 폴리글랏 프로그래밍 - 파이썬
 ```
-위치 : /taxiguider_py>cutomer>policy-handler.py
+위치 : asman/cutomer_py>policy-handler.py
 ```
-![폴리그랏프로그래밍](https://user-images.githubusercontent.com/78134019/109745241-ebac6280-7c16-11eb-8839-6c974340839b.jpg)
+
+![파이썬_폴리그랏](https://user-images.githubusercontent.com/78134019/109915928-0d304b80-7cf6-11eb-96f6-4a3a467b8a91.jpg)
 
 
 ## 마이크로 서비스 호출 흐름
 
-- taxicall 서비스 호출처리
-호출(taxicall)->택시관리(taximanage) 간의 호출처리 됨.
-택시 할당에서 택시기사를 할당하여 호출 확정 상태가 됨.
+- asmancall 서비스 호출처리
+수리기사호출(asmancall)->수리기사관리(asmanmanage) 간의 호출처리 됨.
+수리기사 할당에서 수리기사를 할당하여 호출 확정 상태가 됨.
 두 개의 호출 상태
 를 만듬.
 ```
-http localhost:8081/택시호출s 휴대폰번호="01012345678" 호출상태=호출 호출위치="마포" 예상요금=25000
-http localhost:8081/택시호출s 휴대폰번호="01056789012" 호출상태=호출 호출위치="서대문구" 예상요금=30000
+http localhost:8081/asmancalls tel="01023456789" status="호출" cost=25500
+
+http localhost:8081/asmancalls tel="01023456789" status="호출" cost=25500
 ```
 
-![image](screenshots/taxicall1.png "taxicall 서비스 호출")
-![image](screenshots/taxicall2.png "taxicall 서비스 호출")
+![call1](https://user-images.githubusercontent.com/78134019/109916030-381a9f80-7cf6-11eb-8ff5-a9d8bfc9fe2c.jpg)
 
-호출 결과는 모두 택시 할당(taxiassign)에서 택시기사의 할당으로 처리되어 호출 확정 상태가 되어 있음.
-
-![image](screenshots/taxicall_result1.png "taxicall 서비스 호출 결과")
-![image](screenshots/taxicall_result2.png "taxicall 서비스 호출 결과")
-![image](screenshots/taximanage_result1.png "taxicall 서비스 호출 결과 - 택시관리")
+![call2](https://user-images.githubusercontent.com/78134019/109916036-3cdf5380-7cf6-11eb-9f5e-d59e5d480206.jpg)
 
 
-- taxicall 서비스 호출 취소 처리
+호출 완료되면 [호출확정]상태가 됨
 
-호출 취소는 택시호출에서 다음과 같이 호출 하나를 취소 함으로써 진행 함.
+
+- asmancall 서비스 호출 취소 처리
 
 ```
-http delete http://localhost:8081/택시호출s/1
-HTTP/1.1 204
-Date: Tue, 02 Mar 2021 16:59:12 GMT
+http delete http://localhost:8081/asmancalls/1
 ```
-호출이 취소 되면 택시 호출이 하나가 삭제 되었고, 
+호출이 취소 되면 택시 호출이 하나가 삭제 됨
 
-```
-http localhost:8081/택시호출s/
-```
-![image](screenshots/taxicancel_result.png "taxicall 서비스 호출취소 결과")
+![cancel1](https://user-images.githubusercontent.com/78134019/109916198-892a9380-7cf6-11eb-8fae-8fb1f86cd6fc.jpg)
 
+![cancel2](https://user-images.githubusercontent.com/78134019/109916725-75336180-7cf7-11eb-8ea9-cbce40fab3a3.jpg)
 
+*********************************************
 택시관리에서는 해당 호출에 대해서 호출취소로 상태가 변경 됨.
 
 ```
 http localhost:8082/택시관리s/
 ```
 ![image](screenshots/taximanage_result.png "taxicall 서비스 호출취소 결과")
-
+*******************************************************
 - 고객 메시지 서비스 처리
 고객(customer)는 호출 확정과 할당 확정에 대한 메시지를 다음과 같이 받을 수 있으며,
 할당 된 택시기사의 정보를 또한 확인 할 수 있다.
