@@ -584,5 +584,6 @@ kubectl get all
 
 azure potal 확인
 
-![potal캡쳐](https://user-images.githubusercontent.com/78134019/109977966-ba2fb600-7d40-11eb-8778-9fb80b74eadb.jpg)
+![finalll](https://user-images.githubusercontent.com/78134019/109978635-6d001400-7d41-11eb-96e3-a45665bb7956.jpg)
+
 
