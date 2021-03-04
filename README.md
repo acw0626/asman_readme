@@ -500,6 +500,28 @@ kubectl get ns
 ![ns확인](https://user-images.githubusercontent.com/78134019/109940542-89865700-7d15-11eb-8ab2-4a3777ef02d2.jpg)
 
 
+-git 에서 소스 가져와서 패키징 작업 하기
+
+```
+root@labs--952692809:/home/project/personal/asman2/asman/gateway# mvn clean && mvn package
+```
+![ascall_mvn](https://user-images.githubusercontent.com/78134019/109953456-6d89b200-7d23-11eb-9bf0-abd1e8bd7a36.jpg)
+
+
+
+```
+root@labs--952692809:/home/project/personal/asman2/asman/ascall# mvn clean && mvn package
+```
+![asmanage_mvn](https://user-images.githubusercontent.com/78134019/109953471-737f9300-7d23-11eb-882f-6adc0a982b84.jpg)
+
+
+```
+root@labs--952692809:/home/project/personal/asman2/asman/asmanage# mvn clean && mvn package
+```
+![asassign_mvn](https://user-images.githubusercontent.com/78134019/109953496-79757400-7d23-11eb-8da6-93375efe7f05.jpg)
+
+
+
 ```
 
 도커 이미지 만들어서 올리기
