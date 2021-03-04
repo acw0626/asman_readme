@@ -272,10 +272,13 @@ gateway > applitcation.yml 설정
 gateway 테스트
 
 ```
-http localhost:8080/택시호출s
+http localhost:8088/asmancalls
 -> gateway 를 호출하나 8081 로 호출됨
 ```
-![gateway_3](https://user-images.githubusercontent.com/78134019/109480424-da504280-7abe-11eb-988e-2a6d7a1f7cea.png)
+![gateway2](https://user-images.githubusercontent.com/78134019/109926231-132e2880-7d06-11eb-870b-1821fe1c6493.jpg)
+
+
+![gateway](https://user-images.githubusercontent.com/78134019/109926218-0e697480-7d06-11eb-9aeb-5b68b10d6e6d.jpg)
 
 
 
