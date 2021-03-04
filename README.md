@@ -281,95 +281,96 @@ http localhost:8080/택시호출s
 
 ## 동기식 호출 과 Fallback 처리
 
-호출(taxicall)->택시관리(taximanage) 간의 호출은 동기식 일관성을 유지하는 트랜잭션으로 처리함.
-호출 프로토콜은 이미 앞서 Rest Repository 에 의해 노출되어있는 REST 서비스를 FeignClient 를 이용하여 호출하도록 한다. 
+수리기사호출(asmancall)->수리기사관리(asmanmanage) 간의 호출은 동기식 일관성을 유지하는 트랜잭션으로 처리함.
+수리기사호출호출 프로토콜은 이미 앞서 Rest Repository 에 의해 노출되어있는 REST 서비스를 FeignClient 를 이용하여 호출하도록 한다. 
 
 
 ```
-# external > 택시관리Service.java
+# external > AsmanmanageService.java
 
 
-package taxiguider.external;
+package asmanguider.external;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-//@FeignClient(name="taximanage", url="http://localhost:8082")
-@FeignClient(name="taximanage", url="http://localhost:8082", fallback = 택시관리ServiceFallback.class)
-public interface 택시관리Service {
+//@FeignClient(name="asmanmanage", url="http://localhost:8082")
+//@FeignClient(name="asmanmanage", url="http://localhost:8082", fallback = AsmanmanageServiceFallback.class)
+@FeignClient(name="asmanmanage", url="http://asmanmanage:8080", fallback = AsmanmanageServiceFallback.class)
+public interface AsmanmanageService {
 
-    @RequestMapping(method= RequestMethod.POST, path="/택시관리s")
-    public void 택시할당요청(@RequestBody 택시관리 택시관리);
+    @RequestMapping(method= RequestMethod.POST, path="/asmanmanages")
+    public void requestAsmanAssign(@RequestBody Asmanmanage txMange);
 
 }
 
 ```
 
+
 ```
-# external > 택시관리ServiceFallback.java
+# external > AsmanmanageServiceFallback.java
 
 
-package taxiguider.external;
+
+package asmanguider.external;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class 택시관리ServiceFallback implements 택시관리Service {
-	 
-	//@Override
-	//public void 택시할당요청(택시관리 택시관리) 
-	//{	
-	//	System.out.println("Circuit breaker has been opened. Fallback returned instead.");
-	//}
+public class AsmanmanageServiceFallback implements AsmanmanageService {
 	
 	
 	@Override
-	public void 택시할당요청(택시관리 택시관리) {
-		// TODO Auto-generated method stub
-		System.out.println("Circuit breaker has been opened. Fallback returned instead. " + 택시관리.getId());
+	public void requestAsmanAssign(Asmanmanage txMange) {
+		System.out.println("Circuit breaker has been opened. Fallback returned instead. " 
+				+ txMange.getId());
 	}
 
 }
 
+
 ```
 
-![동기식](https://user-images.githubusercontent.com/78134019/109463569-97837000-7aa8-11eb-83c4-6f6eff1594aa.jpg)
+![동기식](https://user-images.githubusercontent.com/78134019/109925177-c39b2d00-7d04-11eb-823f-2b8e51e001e9.jpg)
 
 
-- 택시호출을 하면 택시관리가 호출되도록..
+- 수리기사호출을 하면 수리기사관리가 호출되도록..
 ```
-# 택시호출.java
+# Asmancall.java
 
  @PostPersist
-    public void onPostPersist(){    	
-    	System.out.println("휴대폰번호 " + get휴대폰번호());
-        System.out.println("호출위치 " + get호출위치());
-        System.out.println("호출상태 " + get호출상태());
-        System.out.println("예상요금 " + get예상요금());
+    public void onPostPersist(){
+    	
+    	System.out.println("휴대폰번호 " + getTel());
+        System.out.println("호출위치 " + getLocation());
+        System.out.println("호출상태 " + getStatus());
+        System.out.println("예상요금 " + getCost());
         //Following code causes dependency to external APIs
         // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.   	
-    	if(get휴대폰번호() != null)
+    	if(getTel() != null)
 		{
     		System.out.println("SEND###############################" + getId());
-			택시관리 택시관리 = new 택시관리();
-	        
-			택시관리.setOrderId(String.valueOf(getId()));
-	        택시관리.set고객휴대폰번호(get휴대폰번호());
-	        if(get호출위치()!=null) 
-	        	택시관리.set호출위치(get호출위치());
-	        if(get호출상태()!=null) 
-	        	택시관리.set호출상태(get호출상태());
-	        if(get예상요금()!=null) 
-	        	택시관리.set예상요금(get예상요금());
+			Asmanmanage txMgr = new Asmanmanage();
+			txMgr.setId(getId());
+			txMgr.setOrderId(String.valueOf(getId()));
+			txMgr.setTel(getTel());
+	        if(getLocation()!=null) 
+	        	txMgr.setLocation(getLocation());
+	        if(getStatus()!=null) 
+	        	txMgr.setStatus(getStatus());
+	        if(getCost()!=null) 
+	        	txMgr.setCost(getCost());
 	        
 	        // mappings goes here
-	        TaxicallApplication.applicationContext.getBean(택시관리Service.class).택시할당요청(택시관리);
+	        AsmancallApplication.applicationContext.getBean(AsmanmanageService.class)
+	        	.requestAsmanAssign(txMgr);;
 		}
+
 ```
 
-![동기식2](https://user-images.githubusercontent.com/78134019/109463985-47f17400-7aa9-11eb-8603-c1f83e17951d.jpg)
+![동기식2](https://user-images.githubusercontent.com/78134019/109925378-00672400-7d05-11eb-9a1f-c6abbbbf78e6.jpg)
 
 - 동기식 호출 적용으로 택시 관리 시스템이 정상적이지 않으면 , 택시콜도 접수될 수 없음을 확인 
 ```
