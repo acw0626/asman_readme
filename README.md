@@ -426,11 +426,13 @@ http localhost:8081/ascalls tel="01023456789" status="호출" cost=25500
 
 <수리기사 호출  Ascall>
 
-![assign죽이고](https://user-images.githubusercontent.com/78134019/109980911-c10bf800-7d43-11eb-91e4-3aac6ebf5bbf.jpg)
+![비동기1](https://user-images.githubusercontent.com/78134019/109982314-201e3c80-7d45-11eb-9f4d-c2b840125c1e.jpg)
+
 
 
 <수리기사 할당이 정상적이지 않아 호출중으로 남아있음>
-![비동기식](https://user-images.githubusercontent.com/78134019/109980832-ac2f6480-7d43-11eb-9518-03169cfca783.jpg)
+
+![비동기2](https://user-images.githubusercontent.com/78134019/109982333-23b1c380-7d45-11eb-9029-5587bf70ba12.jpg)
 
 
 
