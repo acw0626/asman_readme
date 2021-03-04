@@ -213,44 +213,55 @@ Eventual Consistency 를 기본으로 채택함.
 두 개의 호출 상태
 를 만듬.
 ```
-http localhost:8081/asmancalls tel="01023456789" status="호출" cost=25500
+http localhost:8081/ascalls tel="01023456789" status="호출" cost=25500
 
-http localhost:8081/asmancalls tel="01023456789" status="호출" cost=25500
+http localhost:8081/ascalls tel="01023456789" status="호출" cost=25500
 ```
 
-![call1](https://user-images.githubusercontent.com/78134019/109916030-381a9f80-7cf6-11eb-8ff5-a9d8bfc9fe2c.jpg)
+![new_call1](https://user-images.githubusercontent.com/78134019/109960345-00c6e580-7d2c-11eb-8bda-d63e52de98c5.jpg)
 
-![call2](https://user-images.githubusercontent.com/78134019/109916036-3cdf5380-7cf6-11eb-9f5e-d59e5d480206.jpg)
+![new_call2](https://user-images.githubusercontent.com/78134019/109960361-058b9980-7d2c-11eb-842b-80757d46e085.jpg)
+
 
 
 호출 완료되면 [호출확정]상태가 됨
+
+```
+http localhost:8081/ascalls tel="01023456789" status="호출" cost=25500
+
+http localhost:8081/ascalls tel="01023456789" status="호출" cost=25500
+```
+
+![new_호출확정](https://user-images.githubusercontent.com/78134019/109964239-c3b12200-7d30-11eb-89a0-bf8ed39892e1.jpg)
 
 
 - asmancall 서비스 호출 취소 처리
 
 ```
-http delete http://localhost:8081/asmancalls/1
+http delete http://localhost:8081/ascalls/1
 ```
 호출이 취소 되면 택시 호출이 하나가 삭제 됨
+![new_호출취소](https://user-images.githubusercontent.com/78134019/109964325-de839680-7d30-11eb-9903-0c375174f88b.jpg)
 
-![cancel1](https://user-images.githubusercontent.com/78134019/109916198-892a9380-7cf6-11eb-8fae-8fb1f86cd6fc.jpg)
 
-![cancel2](https://user-images.githubusercontent.com/78134019/109916725-75336180-7cf7-11eb-8ea9-cbce40fab3a3.jpg)
 
 *********************************************
 택시관리에서는 해당 호출에 대해서 호출취소로 상태가 변경 됨.
 
 ```
-http localhost:8082/택시관리s/
+http localhost:8082/asmanages/
 ```
-![image](screenshots/taximanage_result.png "taxicall 서비스 호출취소 결과")
+![new_호출취소결과](https://user-images.githubusercontent.com/78134019/109964411-fd822880-7d30-11eb-9c08-da784a06e741.jpg)
+
+
 *******************************************************
 - 고객 메시지 서비스 처리
 고객(customer)는 호출 확정과 할당 확정에 대한 메시지를 다음과 같이 받을 수 있으며,
 할당 된 택시기사의 정보를 또한 확인 할 수 있다.
 파이썬으로 구현 하였음.
 
-![image](screenshots/customer.png "호출 결과에 대한 고객 메시지")
+![파이썬_결과](https://user-images.githubusercontent.com/78134019/109964472-1559ac80-7d31-11eb-9ad7-07be720ade76.jpg)
+
 
 
 ## Gateway 적용
@@ -264,15 +275,14 @@ http localhost:8082/택시관리s/
 
 gateway > applitcation.yml 설정
 
-![gateway_1](https://user-images.githubusercontent.com/78134019/109480363-c73d7280-7abe-11eb-9904-0c18e79072eb.png)
+![new_gateway](https://user-images.githubusercontent.com/78134019/109964628-41752d80-7d31-11eb-9bcc-efca03c3e00c.jpg)
 
-![gateway_2](https://user-images.githubusercontent.com/78134019/109480386-d02e4400-7abe-11eb-9251-a813ac911e0d.png)
 
 
 gateway 테스트
 
 ```
-http localhost:8088/asmancalls
+http localhost:8088/ascalls
 -> gateway 를 호출하나 8081 로 호출됨
 ```
 ![gateway2](https://user-images.githubusercontent.com/78134019/109926231-132e2880-7d06-11eb-870b-1821fe1c6493.jpg)
