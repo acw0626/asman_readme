@@ -285,10 +285,12 @@ gateway 테스트
 http localhost:8088/ascalls
 -> gateway 를 호출하나 8081 로 호출됨
 ```
-![gateway2](https://user-images.githubusercontent.com/78134019/109926231-132e2880-7d06-11eb-870b-1821fe1c6493.jpg)
+
+![gateway_2](https://user-images.githubusercontent.com/78134019/109980280-11368a80-7d43-11eb-9981-cc97e14a12df.jpg)
 
 
-![gateway](https://user-images.githubusercontent.com/78134019/109926218-0e697480-7d06-11eb-9aeb-5b68b10d6e6d.jpg)
+
+
 
 
 
@@ -419,13 +421,17 @@ http localhost:8081/ascalls tel="01023456789" status="호출" cost=25500
 
 수리기사 관리 (Asman manage) 이후 수리기사 할당(Asman Assign) 은 비동기식 처리이므로 , 수리기사 호출(Asman call) 의 서비스 호출에는 영향이 없다
  
-고객이 택시 호출(Taxi call) 후 상태가 [호출]->[호출중] 로 변경되고 할당이 완료되면 [호출확정] 로 변경이 되지만 , 택시 할당(Taxi Assign)이 정상적이지 않으므로 [호출중]로 남아있음. 
+고객이 수리기사 호출(As call) 후 상태가 [호출]->[호출중] 로 변경되고 할당이 완료되면 [호출확정] 로 변경이 되지만 , 수리 할당(As Assign)이 정상적이지 않으므로 [호출]로 남아있음. 
 --> (시간적 디커플링)
-<고객 택시 호출 Taxi call>
-![비동기_호출2](https://user-images.githubusercontent.com/78134019/109468467-f4365900-7aaf-11eb-877a-049637b5ee6a.png)
 
-<택시 할당이 정상적이지 않아 호출중으로 남아있음>
-![택시호출_택시할당없이_조회](https://user-images.githubusercontent.com/78134019/109471791-99ebc700-7ab4-11eb-924f-03715de42eba.png)
+<수리기사 호출  Ascall>
+
+![assign죽이고](https://user-images.githubusercontent.com/78134019/109980911-c10bf800-7d43-11eb-91e4-3aac6ebf5bbf.jpg)
+
+
+<수리기사 할당이 정상적이지 않아 호출중으로 남아있음>
+![비동기식](https://user-images.githubusercontent.com/78134019/109980832-ac2f6480-7d43-11eb-9518-03169cfca783.jpg)
+
 
 
 
