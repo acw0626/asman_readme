@@ -558,20 +558,31 @@ cd ..
 cd app
 kubectl apply -f kubernetes/deployment.yml
 ```
-<Deploy cutomer>
+
 
 ![apply_customer](https://user-images.githubusercontent.com/78134019/109977575-4beaf380-7d40-11eb-97e4-dd0be2b102cd.jpg)
 
-<Deploy gateway>
+
 
 ![apply_gateway](https://user-images.githubusercontent.com/78134019/109977596-50171100-7d40-11eb-8888-fc5c74f62d60.jpg)
 
-<Deploy asassign>
+
 
 ![apply_asassign](https://user-images.githubusercontent.com/78134019/109977620-56a58880-7d40-11eb-85ce-144101bd63a8.jpg)
 
-<Deploy_asmanage>
+
 
 ![apply_asmanage](https://user-images.githubusercontent.com/78134019/109977683-6a50ef00-7d40-11eb-8beb-b23a8394af88.jpg)
 
+
+배포 후 확인
+```
+kubectl get all
+```
+
+![kubectlgetall](https://user-images.githubusercontent.com/78134019/109977855-99fff700-7d40-11eb-9714-93d4ed36eb72.jpg)
+
+azure potal 확인
+
+![potal캡쳐](https://user-images.githubusercontent.com/78134019/109977966-ba2fb600-7d40-11eb-8778-9fb80b74eadb.jpg)
 
