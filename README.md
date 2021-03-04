@@ -417,7 +417,7 @@ http localhost:8081/ascalls tel="01023456789" status="호출" cost=25500
 
 ## 비동기식 호출 / 장애격리  / 성능
 
-택시 관리 (Taxi manage) 이후 택시 할당(Taxi Assign) 은 비동기식 처리이므로 , 택시 호출(Taxi call) 의 서비스 호출에는 영향이 없다
+수리기사 관리 (Asman manage) 이후 수리기사 할당(Asman Assign) 은 비동기식 처리이므로 , 수리기사 호출(Asman call) 의 서비스 호출에는 영향이 없다
  
 고객이 택시 호출(Taxi call) 후 상태가 [호출]->[호출중] 로 변경되고 할당이 완료되면 [호출확정] 로 변경이 되지만 , 택시 할당(Taxi Assign)이 정상적이지 않으므로 [호출중]로 남아있음. 
 --> (시간적 디커플링)
@@ -432,25 +432,10 @@ http localhost:8081/ascalls tel="01023456789" status="호출" cost=25500
 ## 성능 조회 / View 조회
 고객이 호출한 모든 정보는 조회가 가능하다. 
 
-![고객View](https://user-images.githubusercontent.com/78134019/109483385-80ea1280-7ac2-11eb-9419-bf3ff5a0dbbc.png)
+![파이썬_결과](https://user-images.githubusercontent.com/78134019/109976695-6a042400-7d3f-11eb-8ac2-f2c1ccf0fc55.jpg)
 
 
----mvn MSA Service
-<gateway>
-	
-![mvn_gateway](https://user-images.githubusercontent.com/78134019/109744124-244b3c80-7c15-11eb-80a9-bed42413aa58.png)
-	
-<taxicall>
-	
-![mvn_taxicall](https://user-images.githubusercontent.com/78134019/109744165-31682b80-7c15-11eb-9d94-7bc23efca6b6.png)
 
-<taximanage>
-	
-![mvn_taximanage](https://user-images.githubusercontent.com/78134019/109744195-3b8a2a00-7c15-11eb-9554-1c3ba088af52.png)
-
-<taxiassign>
-	
-![mvn_taxiassign](https://user-images.githubusercontent.com/78134019/109744226-46dd5580-7c15-11eb-8b47-5100ed01e3ae.png)
 
 
 # 운영
@@ -556,16 +541,17 @@ cd ..
 ```
 
 -deployment.yml을 사용하여 배포 
---> 도커 이미지 만들기 붙이기 
 - deployment.yml 편집
 ```
-namespace, image 설정
-env 설정 (config Map) 
-readiness 설정 (무정지 배포)
-liveness 설정 (self-healing)
-resource 설정 (autoscaling)
+   spec:
+      containers:
+        - name: ascall
+          image: skuser12.azurecr.io/ascall:v2
+          ports:
+            - containerPort: 8080
 ```
-![deployment_yml](https://user-images.githubusercontent.com/78134019/109652001-9171ba00-7ba2-11eb-8c29-7128ceb4ec97.jpg)
+![deploy_yml](https://user-images.githubusercontent.com/78134019/109977421-252cbd00-7d40-11eb-84aa-12269b42c07b.jpg)
+
 
 - deployment.yml로 서비스 배포
 ```
@@ -573,19 +559,19 @@ cd app
 kubectl apply -f kubernetes/deployment.yml
 ```
 <Deploy cutomer>
-![deploy_customer](https://user-images.githubusercontent.com/78134019/109744443-a471a200-7c15-11eb-94c9-a0c0a7999d04.png)
+
+![apply_customer](https://user-images.githubusercontent.com/78134019/109977575-4beaf380-7d40-11eb-97e4-dd0be2b102cd.jpg)
 
 <Deploy gateway>
-![deploy_gateway](https://user-images.githubusercontent.com/78134019/109744457-acc9dd00-7c15-11eb-8502-ff65e779e9d2.png)
 
-<Deploy taxiassign>
-![deploy_taxiassign](https://user-images.githubusercontent.com/78134019/109744471-b3585480-7c15-11eb-8d68-bba9c3d8ce01.png)
+![apply_gateway](https://user-images.githubusercontent.com/78134019/109977596-50171100-7d40-11eb-8888-fc5c74f62d60.jpg)
 
-<Deploy taxicall>
-![deploy_taxicall](https://user-images.githubusercontent.com/78134019/109744487-bb17f900-7c15-11eb-8bd0-ff0a9fc9b2e3.png)
+<Deploy asassign>
 
-<Deploy_taximanage>
-![deploy_taximanage](https://user-images.githubusercontent.com/78134019/109744591-e69ae380-7c15-11eb-834a-44befae55092.png)
+![apply_asassign](https://user-images.githubusercontent.com/78134019/109977620-56a58880-7d40-11eb-85ce-144101bd63a8.jpg)
 
+<Deploy_asmanage>
+
+![apply_asmanage](https://user-images.githubusercontent.com/78134019/109977683-6a50ef00-7d40-11eb-8beb-b23a8394af88.jpg)
 
 
