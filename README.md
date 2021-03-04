@@ -299,23 +299,24 @@ http localhost:8088/ascalls
 
 
 ```
-# external > AsmanmanageService.java
+# external > AsmanageService.java
 
 
-package asmanguider.external;
+
+package ascenter.external;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-//@FeignClient(name="asmanmanage", url="http://localhost:8082")
-//@FeignClient(name="asmanmanage", url="http://localhost:8082", fallback = AsmanmanageServiceFallback.class)
-@FeignClient(name="asmanmanage", url="http://asmanmanage:8080", fallback = AsmanmanageServiceFallback.class)
-public interface AsmanmanageService {
+//@FeignClient(name="taximanage", url="http://localhost:8082")
+//@FeignClient(name="asmanage", url="http://asmanage:8080", fallback = AsmanageServiceFallback.class)
+@FeignClient(name="asmanage", url="http://localhost:8080", fallback = AsmanageServiceFallback.class)
+public interface AsmanageService {
 
-    @RequestMapping(method= RequestMethod.POST, path="/asmanmanages")
-    public void requestAsmanAssign(@RequestBody Asmanmanage txMange);
+    @RequestMapping(method= RequestMethod.POST, path="/asmanages")
+    public void reqAsmanAssign(@RequestBody Asmanage asmanage);
 
 }
 
@@ -326,32 +327,33 @@ public interface AsmanmanageService {
 # external > AsmanmanageServiceFallback.java
 
 
-
-package asmanguider.external;
+package ascenter.external;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class AsmanmanageServiceFallback implements AsmanmanageService {
-	
-	
+public class AsmanageServiceFallback implements AsmanageService {
+	 
+
 	@Override
-	public void requestAsmanAssign(Asmanmanage txMange) {
-		System.out.println("Circuit breaker has been opened. Fallback returned instead. " 
-				+ txMange.getId());
+	public void reqAsmanAssign(Asmanage asmanage) {
+		// TODO Auto-generated method stub
+		System.out.println("Circuit breaker has been opened. Fallback returned instead. " + asmanage.getId());
 	}
 
 }
 
 
+
 ```
 
-![동기식](https://user-images.githubusercontent.com/78134019/109925177-c39b2d00-7d04-11eb-823f-2b8e51e001e9.jpg)
+![new_동기식1](https://user-images.githubusercontent.com/78134019/109971202-4e961a80-7d39-11eb-8bae-f9fc0d34438b.jpg)
+
 
 
 - 수리기사호출을 하면 수리기사관리가 호출되도록..
 ```
-# Asmancall.java
+# Ascall.java
 
  @PostPersist
     public void onPostPersist(){
@@ -365,7 +367,7 @@ public class AsmanmanageServiceFallback implements AsmanmanageService {
     	if(getTel() != null)
 		{
     		System.out.println("SEND###############################" + getId());
-			Asmanmanage txMgr = new Asmanmanage();
+			Asmanage txMgr = new Asmanage();
 			txMgr.setId(getId());
 			txMgr.setOrderId(String.valueOf(getId()));
 			txMgr.setTel(getTel());
@@ -377,38 +379,39 @@ public class AsmanmanageServiceFallback implements AsmanmanageService {
 	        	txMgr.setCost(getCost());
 	        
 	        // mappings goes here
-	        AsmancallApplication.applicationContext.getBean(AsmanmanageService.class)
-	        	.requestAsmanAssign(txMgr);;
+	        AscallApplication.applicationContext.getBean(AsmanageService.class)
+	        	.requestAsAssign(txMgr);;
 		}
 
 ```
 
-![동기식2](https://user-images.githubusercontent.com/78134019/109925378-00672400-7d05-11eb-9a1f-c6abbbbf78e6.jpg)
 
-- 동기식 호출 적용으로 택시 관리 시스템이 정상적이지 않으면 , 택시콜도 접수될 수 없음을 확인 
+
+- 동기식 호출 적용으로 수리기사 관리 시스템이 정상적이지 않으면 , 수리기사콜도 접수될 수 없음을 확인 
 ```
-# 택시 관리 시스템 down 후 taxicall 호출 
+# 수리기사 관리 시스템 down 후 ascall 호출 
 
-#taxicall
 
 C:\Users\Administrator>http localhost:8081/택시호출s 휴대폰번호="01012345678" 호출상태="호출"
 ```
 
-![택시관리죽으면택시콜놉](https://user-images.githubusercontent.com/78134019/109464780-905d6180-7aaa-11eb-9c90-e7d1326deea1.jpg)
+
 
 ```
 # 택시 관리 (taximanage) 재기동 후 주문하기
 
 #주문하기(order)
-http localhost:8081/택시호출s 휴대폰번호="01012345678" 호출상태="호출"
+http localhost:8081/ascalls tel="01023456789" status="호출" cost=25500
 ```
 
-![택시관리재시작](https://user-images.githubusercontent.com/78134019/109464984-e5997300-7aaa-11eb-9363-b7bfe15de105.jpg)
+![new_ggg](https://user-images.githubusercontent.com/78134019/109972354-894c8280-7d3a-11eb-9042-2b2d0cfc2f84.jpg)
+
 
 -fallback 
 
 
-![fallback](https://user-images.githubusercontent.com/78134019/109936008-44f8bc80-7d11-11eb-8088-8575b07ee376.jpg)
+![fallback_2](https://user-images.githubusercontent.com/78134019/109972444-a1240680-7d3a-11eb-985a-604ef1f1e20e.jpg)
+
 
 
 
