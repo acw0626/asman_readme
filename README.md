@@ -316,8 +316,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 
-//@FeignClient(name="asmanage", url="http://asmanage:8080", fallback = AsmanageServiceFallback.class)
-@FeignClient(name="asmanage", url="http://localhost:8080", fallback = AsmanageServiceFallback.class)
+@FeignClient(name="asmanage", url="http://localhost:8082")
 public interface AsmanageService {
 
     @RequestMapping(method= RequestMethod.POST, path="/asmanages")
@@ -352,11 +351,9 @@ public class AsmanageServiceFallback implements AsmanageService {
 
 ```
 
-![new_동기식1](https://user-images.githubusercontent.com/78134019/109971202-4e961a80-7d39-11eb-8bae-f9fc0d34438b.jpg)
 
 
-
-- 수리기사호출을 하면 수리기사관리가 호출되도록..
+- 수리기사호출을 하면 수리기사관리가 호출되도록..(전화번호가 있을때)
 ```
 # Ascall.java
 
@@ -400,7 +397,8 @@ public class AsmanageServiceFallback implements AsmanageService {
 http localhost:8081/ascalls tel="01023456789" status="호출" cost=25500
 ```
 
-![으아](https://user-images.githubusercontent.com/78134019/110049370-115f7600-7d95-11eb-9b2a-43ed26c5ba0a.jpg)
+![동기식ㄷㄷㄷ](https://user-images.githubusercontent.com/78134019/110060791-cf8cfa80-7da9-11eb-8652-96a380007f2b.jpg)
+
 
 
 ```
@@ -413,7 +411,29 @@ http localhost:8081/ascalls tel="01023456789" status="호출" cost=25500
 ![new_ggg](https://user-images.githubusercontent.com/78134019/109972354-894c8280-7d3a-11eb-9042-2b2d0cfc2f84.jpg)
 
 
--fallback 
+-서킷브레이크와 fallback
+
+```
+소스 변경후
+@FeignClient(name="asmanage", url="http://localhost:8082", fallback = AsmanageServiceFallback.class)
+public interface AsmanageService {
+
+    @RequestMapping(method= RequestMethod.POST, path="/asmanages")
+    public void reqAsmanAssign(@RequestBody Asmanage asmanage);
+
+}
+```
+수리기사관리 시스템 down 후 수리기사호출 시스템을 호출 하면 
+
+
+
+http localhost:8081/ascalls tel="01023456789" status="호출" cost=25500
+
+
+서비스에서는 영향이 없으며, 다음과 같이 fallback 됩니다.
+
+
+![akakkk](https://user-images.githubusercontent.com/78134019/110060248-f4cd3900-7da8-11eb-9493-866fcd939a74.jpg)
 
 
 ![fallback_2](https://user-images.githubusercontent.com/78134019/109972444-a1240680-7d3a-11eb-985a-604ef1f1e20e.jpg)
