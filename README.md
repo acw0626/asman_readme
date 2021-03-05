@@ -183,7 +183,8 @@ Eventual Consistency 를 기본으로 채택함.
 ## DDD 의 적용
 총 3개의 Domain 으로 관리되고 있으며, 수리기사요청(Asmancall) , 수리기사관리(AsmanManage), 수리기사할당(AsmanAssign) 으로 구성된다. 
 
-![msa](https://user-images.githubusercontent.com/78134019/109915613-76fc2580-7cf5-11eb-878e-738c5b2bf1db.jpg)
+![msa보여주기](https://user-images.githubusercontent.com/78134019/110049218-c6ddf980-7d94-11eb-8b17-4dbae02202dd.jpg)
+
 
 ![MSA2](https://user-images.githubusercontent.com/78134019/109915638-7fecf700-7cf5-11eb-9b18-76d07a580fb4.jpg)
 
@@ -202,7 +203,8 @@ Eventual Consistency 를 기본으로 채택함.
 위치 : asman/cutomer_py>policy-handler.py
 ```
 
-![파이썬_폴리그랏](https://user-images.githubusercontent.com/78134019/109915928-0d304b80-7cf6-11eb-96f6-4a3a467b8a91.jpg)
+![파이썬소스바꾸기](https://user-images.githubusercontent.com/78134019/110049279-e4ab5e80-7d94-11eb-92d9-fa44200b4956.jpg)
+
 
 
 ## 마이크로 서비스 호출 흐름
@@ -226,11 +228,7 @@ http localhost:8081/ascalls tel="01023456789" status="호출" cost=25500
 
 호출 완료되면 [호출확정]상태가 됨
 
-```
-http localhost:8081/ascalls tel="01023456789" status="호출" cost=25500
 
-http localhost:8081/ascalls tel="01023456789" status="호출" cost=25500
-```
 
 ![new_호출확정](https://user-images.githubusercontent.com/78134019/109964239-c3b12200-7d30-11eb-89a0-bf8ed39892e1.jpg)
 
@@ -312,7 +310,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-//@FeignClient(name="taximanage", url="http://localhost:8082")
+
 //@FeignClient(name="asmanage", url="http://asmanage:8080", fallback = AsmanageServiceFallback.class)
 @FeignClient(name="asmanage", url="http://localhost:8080", fallback = AsmanageServiceFallback.class)
 public interface AsmanageService {
@@ -389,14 +387,15 @@ public class AsmanageServiceFallback implements AsmanageService {
 
 
 
-- 동기식 호출 적용으로 수리기사 관리 시스템이 정상적이지 않으면 , 수리기사콜도 접수될 수 없음을 확인 --> 확인못함
+- 동기식 호출 적용으로 수리기사 관리 시스템이 정상적이지 않으면 , 수리기사콜도 접수될 수 없음을 확인 
 ```
 # 수리기사 관리 시스템 down 후 ascall 호출 
 
 
-C:\Users\Administrator>http localhost:8081/택시호출s 휴대폰번호="01012345678" 호출상태="호출"
+http localhost:8081/ascalls tel="01023456789" status="호출" cost=25500
 ```
 
+![으아](https://user-images.githubusercontent.com/78134019/110049370-115f7600-7d95-11eb-9b2a-43ed26c5ba0a.jpg)
 
 
 ```
