@@ -659,3 +659,40 @@ kubectl exec -it pod/siege-5459b87f86-68jmv -c siege -n asman -- /bin/bash
 siege -c200 -t60S -r10 -v --content-type "application/json" 'http://52.231.28.169:8080/ascalls POST {"tel": "0101231234"}'
 ```
 
+
+
+**오토스케일
+
+
+변경
+
+![2222](https://user-images.githubusercontent.com/78134019/110092596-18aa7200-7ddd-11eb-8173-5f00606d1fa6.jpg)
+
+kubectl autoscale deploy ascall --min=1 --max=10 --cpu-percent=15
+
+![111](https://user-images.githubusercontent.com/78134019/110092613-1d6f2600-7ddd-11eb-95f2-149c6cea19c7.jpg)
+
+
+부하주기
+siege -c200 -t60S -r10 -v --content-type "application/json" 'http://ascall:8080/ascalls/ POST {"tel": "1234567890", "cost":3000}'
+
+
+결과
+
+![333](https://user-images.githubusercontent.com/78134019/110092812-5a3b1d00-7ddd-11eb-83be-45877fcdd127.jpg)
+
+
+모니터링 결과
+
+![4444](https://user-images.githubusercontent.com/78134019/110092837-5f986780-7ddd-11eb-888e-f5705ad26af4.jpg)
+
+
+다시 부하를 주고 테스트하면 Availability가 100 !!!
+
+![66666](https://user-images.githubusercontent.com/78134019/110093106-ae460180-7ddd-11eb-8576-5593329b902b.jpg)
+
+
+
+
+
+
