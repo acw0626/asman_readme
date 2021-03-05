@@ -175,9 +175,9 @@ Eventual Consistency 를 기본으로 채택함.
 각 서비스별로 bat 파일로 실행한다. 
 
 ```
-<run_asmancall_eng.bat>
-<run_asmanmanage_eng.bat>
-<run_asmanassign_eng.bat>
+<run_asmancall.bat>
+<run_asmanmanage.bat>
+<run_asmanassign.bat>
 <run_gateway.bat>
 ```
 ## DDD 의 적용
