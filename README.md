@@ -594,3 +594,43 @@ azure potal 확인
 ![finalll](https://user-images.githubusercontent.com/78134019/109978635-6d001400-7d41-11eb-96e3-a45665bb7956.jpg)
 
 
+## 동기식 호출 / 서킷 브레이킹 / 장애격리
+
+* 서킷 브레이킹 프레임워크의 선택: Spring FeignClient + Hystrix 옵션을 사용하여 구현함
+
+- Hystrix 를 설정:  요청처리 쓰레드에서 처리시간이 610 밀리가 넘어서기 시작하여 어느정도 유지되면 CB 회로가 닫히도록 (요청을 빠르게 실패처리, 차단) 설정
+```
+hystrix:
+  command:
+    # 전역설정
+    default:
+      execution.isolation.thread.timeoutInMilliseconds: 610
+
+```
+![hystric](https://user-images.githubusercontent.com/78134019/110054187-fe9d6f00-7d9d-11eb-9478-65607f89ab2c.jpg)
+
+
+
+부하테스트
+
+
+* Siege Run
+
+```
+kubectl run siege --image=apexacme/siege-nginx -n asman
+```
+![seige](https://user-images.githubusercontent.com/78134019/110054291-31476780-7d9e-11eb-8d5b-24ce390746cd.jpg)
+
+
+* 실행
+
+```
+kubectl exec -it pod/siege-5459b87f86-68jmv -c siege -n asman -- /bin/bash
+```
+
+*부하 실행
+
+```
+siege -c200 -t60S -r10 -v --content-type "application/json" 'http://52.231.28.169:8080/ascalls POST {"tel": "0101231234"}'
+```
+
