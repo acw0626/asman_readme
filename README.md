@@ -300,7 +300,7 @@ http localhost:8080/ascalls
 ## 동기식 호출 과 Fallback 처리
 
 수리기사호출(ascall)->수리기사관리(asmanage) 간의 호출은 동기식 일관성을 유지하는 트랜잭션으로 처리함.
-수리기사호출호출 프로토콜은 이미 앞서 Rest Repository 에 의해 노출되어있는 REST 서비스를 FeignClient 를 이용하여 호출하도록 한다. 
+수리기사호출 프로토콜은 이미 앞서 Rest Repository 에 의해 노출되어있는 REST 서비스를 FeignClient 를 이용하여 호출하도록 한다. 
 
 
 ```
