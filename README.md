@@ -277,14 +277,15 @@ http localhost:8082/asmanages/
 
 gateway > applitcation.yml 설정
 
-![new_gateway](https://user-images.githubusercontent.com/78134019/109964628-41752d80-7d31-11eb-9bcc-efca03c3e00c.jpg)
+![new_게이트웨이](https://user-images.githubusercontent.com/78134019/110058120-25ab6f00-7da5-11eb-8079-8ab4b10fbc59.jpg)
+
 
 
 
 gateway 테스트
 
 ```
-http localhost:8088/ascalls
+http localhost:8080/ascalls
 -> gateway 를 호출하나 8081 로 호출됨
 ```
 
