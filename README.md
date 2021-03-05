@@ -152,8 +152,8 @@
 1) 마이크로 서비스를 넘나드는 시나리오에 대한 트랜잭션 처리 
    수리기사 할당요청이 완료되지 않은 호출요청 완료처리는 최종 할당이 되지 않는 경우 무한정 대기 등 대고객 서비스 및 신뢰도에 치명적 문제점이 있어 ACID 트랜잭션 적용. 
    호출요청 시 수리기사 할당요청에 대해서는 Request-Response 방식 처리 
-2) 호출요청 완료시 할당확인 및 결과 전송: asman manage service 에서asman Assign 마이크로서비스로 수리기사할당 요청이 전달되는 과정에 있어서 
-  asman Assig 마이크로 서비스가 별도의 배포주기를 가지기 때문에 Eventual Consistency 방식으로 트랜잭션 처리함. 
+2) 호출요청 완료시 할당확인 및 결과 전송: asmanage service 에서asAssign 마이크로서비스로 수리기사할당 요청이 전달되는 과정에 있어서 
+  asAssign 마이크로 서비스가 별도의 배포주기를 가지기 때문에 Eventual Consistency 방식으로 트랜잭션 처리함. 
 3) 나머지 모든 inter-microservice 트랜잭션: 호출상태, 할당/할당취소 여부 등 이벤트에 대해 카톡을 처리하는 등 데이터 일관성의 시점이 크리티컬하지 않은 모든 경우가 대부분이라 판단, 
 Eventual Consistency 를 기본으로 채택함. 
 
@@ -233,7 +233,7 @@ http localhost:8081/ascalls tel="01023456789" status="호출" cost=25500
 ![new_호출확정](https://user-images.githubusercontent.com/78134019/109964239-c3b12200-7d30-11eb-89a0-bf8ed39892e1.jpg)
 
 
-- asmancall 서비스 호출 취소 처리
+- ascall 서비스 호출 취소 처리
 
 ```
 http delete http://localhost:8081/ascalls/1
@@ -324,7 +324,7 @@ public interface AsmanageService {
 
 
 ```
-# external > AsmanmanageServiceFallback.java
+# external > AsmanageServiceFallback.java
 
 
 package ascenter.external;
@@ -336,7 +336,7 @@ public class AsmanageServiceFallback implements AsmanageService {
 	 
 
 	@Override
-	public void reqAsmanAssign(Asmanage asmanage) {
+	public void reqAsAssign(Asmanage asmanage) {
 		// TODO Auto-generated method stub
 		System.out.println("Circuit breaker has been opened. Fallback returned instead. " + asmanage.getId());
 	}
