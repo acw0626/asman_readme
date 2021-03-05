@@ -82,22 +82,26 @@
 
 ### 바운디드 컨텍스트로 묶기
 
-![바운디드묶기](https://user-images.githubusercontent.com/78134019/109895543-bc5b2b80-7cd2-11eb-906c-8220dfe47a3f.jpg)
+![new_바운디드](https://user-images.githubusercontent.com/78134019/110055005-8172f980-7d9f-11eb-9460-7af400cdd3f8.jpg)
 
 
 
 ### 폴리시 부착 (괄호는 수행주체, 폴리시 부착을 둘째단계에서 해놔도 상관 없음. 전체 연계가 초기에 드러남)
-![폴리시부착](https://user-images.githubusercontent.com/78134019/109895558-c2510c80-7cd2-11eb-9e52-cab82fc67ab7.jpg)
+
+![new_폴리시부착](https://user-images.githubusercontent.com/78134019/110055016-8768da80-7d9f-11eb-8b29-e5c6e3cdfbbb.jpg)
 
 
 ### 폴리시의 이동
-![폴리시이동](https://user-images.githubusercontent.com/78134019/109895569-c715c080-7cd2-11eb-9b1a-ea1cb7c1befc.jpg)
+
+![new_폴리시이동](https://user-images.githubusercontent.com/78134019/110055030-8cc62500-7d9f-11eb-9c15-465fbc4dabbc.jpg)
 
 
 
 ### 컨텍스트 매핑 (점선은 Pub/Sub, 실선은 Req/Resp)
 
-![컨택스트매핑](https://user-images.githubusercontent.com/78134019/109895591-cda43800-7cd2-11eb-91f8-a8f9f48812e4.jpg)
+![new_컨텍스트매핑](https://user-images.githubusercontent.com/78134019/110055041-918ad900-7d9f-11eb-839d-ff743448c2f9.jpg)
+
+
 
 
 
