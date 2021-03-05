@@ -691,6 +691,9 @@ siege -c200 -t60S -r10 -v --content-type "application/json" 'http://ascall:8080/
 
 
 
+**무정지 재배포
+
+Autoscale 이나 CB 설정을 제거하여 진행
 
 
 
