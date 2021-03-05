@@ -649,7 +649,7 @@ hystrix:
 * 실행
 
 ```
-kubectl exec -it pod/siege-5459b87f86-68jmv -c siege -n asman -- /bin/bash
+kubectl exec -it pod/siege-5459b87f86-9l77v -c siege -n asman -- /bin/bash
 ```
 
 *부하 실행
