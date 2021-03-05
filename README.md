@@ -671,9 +671,11 @@ kubectl autoscale deploy ascall --min=1 --max=10 --cpu-percent=15
 ![111](https://user-images.githubusercontent.com/78134019/110092613-1d6f2600-7ddd-11eb-95f2-149c6cea19c7.jpg)
 
 
+```
 부하주기
 siege -c200 -t60S -r10 -v --content-type "application/json" 'http://ascall:8080/ascalls/ POST {"tel": "1234567890", "cost":3000}'
 
+```
 
 결과
 
@@ -689,11 +691,6 @@ siege -c200 -t60S -r10 -v --content-type "application/json" 'http://ascall:8080/
 
 ![66666](https://user-images.githubusercontent.com/78134019/110093106-ae460180-7ddd-11eb-8576-5593329b902b.jpg)
 
-
-
-**무정지 재배포
-
-Autoscale 이나 CB 설정을 제거하여 진행
 
 
 
