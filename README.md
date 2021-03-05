@@ -641,9 +641,7 @@ hystrix:
 
 * Siege Run
 
-```
-kubectl run siege --image=apexacme/siege-nginx -n asman
-```
+
 ![seige](https://user-images.githubusercontent.com/78134019/110054291-31476780-7d9e-11eb-8d5b-24ce390746cd.jpg)
 
 
@@ -656,7 +654,7 @@ kubectl exec -it pod/siege-5459b87f86-68jmv -c siege -n asman -- /bin/bash
 *부하 실행
 
 ```
-siege -c200 -t60S -r10 -v --content-type "application/json" 'http://52.231.28.169:8080/ascalls POST {"tel": "0101231234"}'
+siege -c255 -t10S -r10 -v --content-type "application/json" 'http://ascall:8080/ascalls/ POST {"tel": "1234567890", "cost":3000}'
 ```
 
 
