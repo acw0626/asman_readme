@@ -175,24 +175,24 @@ Eventual Consistency 를 기본으로 채택함.
 각 서비스별로 bat 파일로 실행한다. 
 
 ```
-<run_asmancall.bat>
-<run_asmanmanage.bat>
-<run_asmanassign.bat>
+<run_ascall.bat>
+<run_asmanage.bat>
+<run_asassign.bat>
 <run_gateway.bat>
 ```
 ## DDD 의 적용
-총 3개의 Domain 으로 관리되고 있으며, 수리기사요청(Asmancall) , 수리기사관리(AsmanManage), 수리기사할당(AsmanAssign) 으로 구성된다. 
+총 3개의 Domain 으로 관리되고 있으며, 수리기사요청(Ascall) , 수리기사관리(AsManage), 수리기사할당(AsAssign) 으로 구성된다. 
 
 ![msa보여주기](https://user-images.githubusercontent.com/78134019/110049218-c6ddf980-7d94-11eb-8b17-4dbae02202dd.jpg)
 
 
-![MSA2](https://user-images.githubusercontent.com/78134019/109915638-7fecf700-7cf5-11eb-9b18-76d07a580fb4.jpg)
+
 
 
 ## 폴리글랏 퍼시스턴스
 
 ```
-위치 : /asman>asmanmanage>pom.xml
+위치 : /asman>asmanage>pom.xml
 ```
 
 ![hsqldb](https://user-images.githubusercontent.com/78134019/109915773-be82b180-7cf5-11eb-9c50-68fdc3f4c385.jpg)
@@ -209,8 +209,8 @@ Eventual Consistency 를 기본으로 채택함.
 
 ## 마이크로 서비스 호출 흐름
 
-- asmancall 서비스 호출처리
-수리기사호출(asmancall)->수리기사관리(asmanmanage) 간의 호출처리 됨.
+- ascall 서비스 호출처리
+수리기사호출(ascall)->수리기사관리(asmanage) 간의 호출처리 됨.
 수리기사 할당에서 수리기사를 할당하여 호출 확정 상태가 됨.
 두 개의 호출 상태
 를 만듬.
@@ -294,7 +294,7 @@ http localhost:8088/ascalls
 
 ## 동기식 호출 과 Fallback 처리
 
-수리기사호출(asmancall)->수리기사관리(asmanmanage) 간의 호출은 동기식 일관성을 유지하는 트랜잭션으로 처리함.
+수리기사호출(ascall)->수리기사관리(asmanage) 간의 호출은 동기식 일관성을 유지하는 트랜잭션으로 처리함.
 수리기사호출호출 프로토콜은 이미 앞서 Rest Repository 에 의해 노출되어있는 REST 서비스를 FeignClient 를 이용하여 호출하도록 한다. 
 
 
@@ -418,9 +418,9 @@ http localhost:8081/ascalls tel="01023456789" status="호출" cost=25500
 
 ## 비동기식 호출 / 장애격리  / 성능
 
-수리기사 관리 (Asman manage) 이후 수리기사 할당(Asman Assign) 은 비동기식 처리이므로 , 수리기사 호출(Asman call) 의 서비스 호출에는 영향이 없다
+수리기사 관리 (Asmanage) 이후 수리기사 할당(AsAssign) 은 비동기식 처리이므로 , 수리기사 호출(Ascall) 의 서비스 호출에는 영향이 없다
  
-고객이 수리기사 호출(As call) 후 상태가 [호출]->[호출중] 로 변경되고 할당이 완료되면 [호출확정] 로 변경이 되지만 , 수리 할당(As Assign)이 정상적이지 않으므로 [호출]로 남아있음. 
+고객이 수리기사 호출(Ascall) 후 상태가 [호출]->[호출중] 로 변경되고 할당이 완료되면 [호출확정] 로 변경이 되지만 , 수리 할당(AsAssign)이 정상적이지 않으므로 [호출]로 남아있음. 
 --> (시간적 디커플링)
 
 <수리기사 호출  Ascall>
